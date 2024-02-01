@@ -9,6 +9,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
 public class MainActivity extends AppCompatActivity {
 
     Ecouteur ec;
@@ -22,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
     int quantiteBouteille = 330;
     int quantiteVerre = 150;
 
-
-
+    //jaurais pu avoir une seule quantité que je add 1500, 330 ou 150 selon le bouton jenre quantite +=1500
 
 
     @Override
@@ -87,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(MainActivity.this, text, duration);
                 toast.show();
 
+                //snackbar aussi possible
+                Snackbar mySnackBar = Snackbar.make(source, text, BaseTransientBottomBar.LENGTH_LONG);
+                mySnackBar.show();
             }
 
         }

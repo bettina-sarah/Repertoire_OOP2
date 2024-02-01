@@ -14,18 +14,14 @@ public class MainActivity extends AppCompatActivity {
 
     Ecouteur ec;
 
-    ImageView imageAvion;
-    TextView textAvion;
-    ImageView imageHotel;
-    TextView textHotel;
+    ImageView imageAvion, imageHotel;
+    TextView textAvion, textHotel, quantiteTotal;
     Button boutonTotal;
-    TextView quantiteTotal;
     int volsInt = 0;
     int semainesInt = 0;
 
     BilletAvion volsTotal;
     HebergementHotel hotelTotal;
-
     Commande commande;
 
     @Override
