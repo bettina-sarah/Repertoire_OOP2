@@ -2,14 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/boutonNumerique"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/rangee1"
         android:layout_width="match_parent"
-        android:layout_height="135dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -39,8 +42,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="138dp"
+        android:id="@+id/rangee2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -70,6 +74,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/rangee3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -101,32 +106,46 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/rangee4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/bouton0"
-            android:layout_width="474dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:layout_weight="0"
             android:text="0" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="13dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <TextView
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="286dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <EditText
             android:id="@+id/motDePasse"
-            android:layout_width="wrap_content"
-            android:layout_height="78dp"
+            android:layout_width="234dp"
+            android:layout_height="86dp"
+            android:layout_margin="60dp"
             android:layout_weight="1"
-            android:text="TextView"
-            android:textSize="20sp" />
+            android:backgroundTint="#9C27B0"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="password" />
     </LinearLayout>
 
 </LinearLayout>
