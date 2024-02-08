@@ -1,4 +1,4 @@
-package entrez votre nom de package;
+package com.example.appcafbuckstar;
 
 import java.util.Hashtable;
 
@@ -28,6 +28,7 @@ public class ListeProduits {
     public Produit recupererProduit ( String cle)
     {
        // à compléter
+        return null;
     }
 
 
