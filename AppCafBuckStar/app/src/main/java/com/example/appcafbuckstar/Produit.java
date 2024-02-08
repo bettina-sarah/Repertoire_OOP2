@@ -14,4 +14,20 @@ public class Produit {
         this.prix = prix;
         this.nbCalories = nbCalories;
     }
+
+    public String getNom() {
+        return this.nom;
+    }
+
+    public String getFormat() {
+        return this.format;
+    }
+
+    public double getPrix() {
+        return this.prix;
+    }
+
+    public double getNbCalories() {
+        return this.nbCalories;
+    }
 }
