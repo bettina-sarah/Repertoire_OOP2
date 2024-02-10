@@ -7,7 +7,6 @@ public class Produit {
     private double prix;
     private double nbCalories;
 
-
     public Produit(String nom, String format, double prix, double nbCalories) {
         this.nom = nom;
         this.format = format;
@@ -29,5 +28,18 @@ public class Produit {
 
     public double getNbCalories() {
         return this.nbCalories;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+
+    public void setPrix(double prix) {
+        this.prix = prix;
+    }
+
+    public void setNbCalories(double nbCalories) {
+        this.nbCalories = nbCalories;
     }
 }
