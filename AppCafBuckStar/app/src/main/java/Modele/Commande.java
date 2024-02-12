@@ -28,4 +28,9 @@ public class Commande {
     public double getTotal() {
         return this.total;
     }
+
+    public void vider(){
+        this.listeBoissons = new Vector<>();
+        this.total = 0;
+    }
 }

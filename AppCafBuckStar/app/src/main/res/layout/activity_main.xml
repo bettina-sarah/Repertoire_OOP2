@@ -18,7 +18,7 @@
             android:id="@+id/cafeFiltre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:tag="Café filtre"
             app:srcCompat="@drawable/cafe_filtre" />
@@ -27,7 +27,7 @@
             android:id="@+id/americano"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:tag="Americano"
             app:srcCompat="@drawable/americano" />
@@ -73,7 +73,7 @@
             android:id="@+id/cafeGlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:tag="Café glacé"
             app:srcCompat="@drawable/cafe_glace" />
@@ -82,7 +82,7 @@
             android:id="@+id/latte"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:tag="Latté"
             app:srcCompat="@drawable/latte" />
@@ -133,44 +133,37 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/Petit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
                 android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:backgroundTint="#098A56"
                 android:checkable="true"
                 android:tag="Petit"
-                android:textColor="#FFFFFF"
+                android:text="Petit"
                 app:checkedIcon="@drawable/crochet"
-                app:chipEndPadding="10dp"
-                tools:text="Petit" />
+                app:closeIconVisible="false" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/Moyen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
                 android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:backgroundTint="#098A56"
                 android:checkable="true"
                 android:tag="Moyen"
-                android:textColor="#FFFFFF"
+                android:text="Moyen"
                 app:checkedIcon="@drawable/crochet"
-                app:chipEndPadding="10dp"
-                tools:text="Moyen" />
+                app:closeIconVisible="false" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/Grand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="#098A56"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
                 android:checkable="true"
                 android:tag="Grand"
-                android:textColor="#FFFFFF"
+                android:text="Grand"
                 app:checkedIcon="@drawable/crochet"
-                app:chipEndPadding="10dp"
-                tools:text="Grand" />
+                app:closeIconVisible="false" />
+
         </com.google.android.material.chip.ChipGroup>
 
     </LinearLayout>
@@ -204,6 +197,7 @@
             android:layout_weight="1"
             android:backgroundTint="#098A56"
             android:enabled="false"
+            android:tag="boutonAjouter"
             android:text="AJOUTER" />
     </LinearLayout>
 
@@ -260,6 +254,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:backgroundTint="#098A56"
+            android:tag="boutonEffacer"
             android:text="EFFACER" />
 
         <Button
@@ -269,6 +264,7 @@
             android:layout_margin="10dp"
             android:layout_weight="2.5"
             android:backgroundTint="#098A56"
+            android:tag="boutonCommander"
             android:text="COMMANDER" />
     </LinearLayout>
 </LinearLayout>

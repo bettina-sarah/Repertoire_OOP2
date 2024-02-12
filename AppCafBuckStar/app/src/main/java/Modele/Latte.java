@@ -2,7 +2,7 @@ package Modele;
 
 public class Latte extends Produit {
     public Latte(String format) {
-        super("Americano "+format, format, 4.00, 125);
+        super("Latté "+format, format, 4.00, 125);
     }
 
     @Override

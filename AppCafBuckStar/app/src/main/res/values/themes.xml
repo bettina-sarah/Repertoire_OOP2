@@ -12,5 +12,17 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="chipStyle">@style/AppCafeChips</item>
+
     </style>
+
+    <style name="AppCafeChips" parent="Base.Widget.MaterialComponents.Chip">
+        <item name="checkedIconVisible">true</item>
+        <item name="checkedIcon">@drawable/crochet</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="chipBackgroundColor">@color/starbuckGreen</item>
+
+    </style>
+
+
 </resources>

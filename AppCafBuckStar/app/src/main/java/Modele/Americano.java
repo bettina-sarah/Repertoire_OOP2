@@ -2,11 +2,13 @@ package Modele;
 
 public class Americano extends Produit {
     public Americano(String format) {
-        super("Americano "+format, format, 2.40, 9);
+            super("Americano "+format, format, 2.40, 9);
+            if(format.equals("Moyen") || format.equals("Grand")){
+                this.setPrix();
+                this.setNbCalories();
+            }
     }
-
-    @Override
-    public void setPrix(double prix) {
+    public void setPrix() {
         if(this.getFormat()=="Moyen"){
             super.setPrix(5/3*this.getPrix());
         }
@@ -14,8 +16,7 @@ public class Americano extends Produit {
             super.setPrix(2.2*this.getPrix());
         }
     }
-    @Override
-    public void setNbCalories(double nbCalories) {
+    public void setNbCalories() {
         if(this.getFormat()=="Moyen"){
             super.setNbCalories(this.getNbCalories()+2);
         }
@@ -23,5 +24,4 @@ public class Americano extends Produit {
             super.setNbCalories(2*this.getNbCalories());
         }
     }
-
 }
