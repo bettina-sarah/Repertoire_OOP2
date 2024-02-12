@@ -1,4 +1,4 @@
-package com.example.appcafbuckstar;
+package Modele;
 
 public class Americano extends Produit {
     public Americano(String format) {

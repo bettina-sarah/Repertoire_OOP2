@@ -1,9 +1,9 @@
-package com.example.appcafbuckstar;
+package Modele;
 
-public class CafeGlace extends Produit {
-    public CafeGlace(String format) {
-        super("Café glacé "+format, format, 2.50, 10);
-    }
+public class CafeFiltre extends Produit {
+    public CafeFiltre(String format) {
+            super("Café filtre "+format, format, 1.80, 5);
+        }
 
     @Override
     public void setPrix(double prix) {
@@ -25,3 +25,7 @@ public class CafeGlace extends Produit {
         }
     }
 }
+
+
+
+
