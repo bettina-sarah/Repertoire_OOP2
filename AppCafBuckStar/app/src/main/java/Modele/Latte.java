@@ -6,22 +6,17 @@ public class Latte extends Produit {
     }
 
     @Override
-    public void setPrix(double prix) {
-        if(this.getFormat()=="Moyen"){
-            super.setPrix(5/3*this.getPrix());
-        }
-        else if(this.getFormat()=="Grand"){
-            super.setPrix(2.5*this.getPrix());
-        }
-    }
-    @Override
-    public void setNbCalories(double nbCalories) {
+    public double getPrix() {
 
-        if(this.getFormat()=="Moyen"){
-            super.setNbCalories(5/3*this.getNbCalories());
+        if(this.getFormat().equals("Moyen")) {
+            return super.getPrix();
         }
-        else if(this.getFormat()=="Grand"){
-            super.setNbCalories(2*this.getNbCalories());
+        if(this.getFormat().equals("Grand")) {
+            return super.getPrix()*1.125; //parce que super retourne prix*2.2 donc j'ai ajusté a la main...
+        }
+
+        else{
+            return super.getPrix();
         }
     }
 }

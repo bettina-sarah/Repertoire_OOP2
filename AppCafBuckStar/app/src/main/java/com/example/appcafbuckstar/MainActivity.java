@@ -4,7 +4,9 @@ import Modele.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,12 +27,13 @@ public class MainActivity extends AppCompatActivity {
     TextView previewText;
     Button ajouter;
     ImageView previewImage;
-
     Commande commande;
-
     ListeProduits liste;
     TextView total;
     DecimalFormat df;
+    LinearLayout imageCommande;
+
+    Drawable d;
 
 
     @Override
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         chipGroup = findViewById(R.id.grandeurChips);
         previewText = findViewById(R.id.previewText);
         ajouter = findViewById(R.id.boutonAjouter); // pour réactiver
-        previewImage = findViewById(R.id.previewImage);
+        imageCommande = findViewById(R.id.previewParent);
         total = findViewById(R.id.total);
         ec = new Ecouteur();
 
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
             //1. imageview record quel type de boisson
             if(source instanceof ImageView){
+                d = ((ImageView) source).getDrawable();
                 typeBoisson = source.getTag().toString();
                 }
             //2. chekcer le chip maintenant & activer bouton
@@ -101,43 +105,58 @@ public class MainActivity extends AppCompatActivity {
                     df = new DecimalFormat("0.00$");
                     bonFormat = df.format(commande.getTotal());
                     total.setText(bonFormat);
+
+                    //visuel preview commande
+                    ImageView i = new ImageView(getApplicationContext());
+                    i.setImageDrawable(d);
+                    i.setLayoutParams(new LinearLayout.LayoutParams(100,100));
+                    imageCommande.addView(i);
+
                 }
 
-                else if (source.getTag().toString().equals("boutonEffacer")){
+                else if (source.getTag().toString().equals("boutonEffacer")) {
                     commande.vider();
                     String totaaal = "0.00$";
                     total.setText(totaaal);
+
+                    imageCommande.removeAllViews();
                 }
+
 
                 else if (source.getTag().toString().equals("boutonCommander")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("Commande envoyée! ");
                     //chercher total encore
+
+                    df = new DecimalFormat("0.00$");
+                    bonFormat = df.format(commande.getTotal());
+
                     builder.setMessage("paiement de " + bonFormat + " en cours");
                     builder.show();
                 }
 
                 else if(source instanceof AppCompatCheckBox){ //si chip
                     formatChip = source.getTag().toString();
-                    ajouter.setEnabled(true);
 
                     //3. creer string complet == clé:
                     completBoisson =typeBoisson + " " + formatChip;
                     //4. chercher produit
-                    boissonChoisi = liste.recupererProduit(completBoisson);
-                    System.out.println(completBoisson);
-                    //5. push text du produit dans preview
-                    String preview = boissonChoisi.getNom() + " " +
-                            boissonChoisi.getNbCalories() + " " + boissonChoisi.getPrix() + "$";
-                    previewText.setText(preview);
-                    System.out.println(preview);
+
+                        boissonChoisi = liste.recupererProduit(completBoisson);
+                        if(boissonChoisi!=null){
+                            ajouter.setEnabled(true);
+                            //5. push text du produit dans preview
+
+                            df = new DecimalFormat("0.00$");
+                            bonFormat = df.format(boissonChoisi.getPrix());
+                            String preview = boissonChoisi.getNom() + " " +
+                                    boissonChoisi.getNbCalories() + " cal " + bonFormat ;
+                            previewText.setText(preview);
+                            System.out.println(preview);
+
+                        }
+
                 }
             }
-
-            //? decimal format
-            //ajouter dynamiquement un imageview? A FAIRE
-
-
-
         }
     }

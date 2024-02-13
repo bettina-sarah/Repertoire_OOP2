@@ -23,23 +23,28 @@ public class Produit {
     }
 
     public double getPrix() {
-        return this.prix;
+
+        if(this.getFormat().equals("Moyen")) {
+            return this.prix*5/3;
+        }
+        if(this.getFormat().equals("Grand")) {
+            return this.prix*2.2;
+        }
+        else{
+            return this.prix;
+        }
     }
 
     public double getNbCalories() {
-        return this.nbCalories;
-    }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-
-    public void setPrix(double prix) {
-        this.prix = prix;
-    }
-
-    public void setNbCalories(double nbCalories) {
-        this.nbCalories = nbCalories;
+        if(this.getFormat().equals("Moyen")) {
+            return this.nbCalories+2;
+        }
+        if(this.getFormat().equals("Grand")) {
+            return this.nbCalories*2;
+        }
+        else{
+            return this.nbCalories;
+        }
     }
 }
