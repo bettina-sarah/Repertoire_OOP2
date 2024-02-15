@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:tag="parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/parentimageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:layout_weight="0.5"
+        android:orientation="horizontal"
+        android:tag="parentImageView">
+
+        <ImageView
+            android:id="@+id/danse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tag="danse"
+            app:srcCompat="@drawable/danse" />
+
+        <ImageView
+            android:id="@+id/marche"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tag="marche"
+            app:srcCompat="@drawable/marche" />
+
+        <ImageView
+            android:id="@+id/natation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tag="natation"
+            app:srcCompat="@drawable/natation" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/parentDebut"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.3"
+        android:orientation="horizontal"
+        android:tag="parentDebut">
+
+        <TextView
+            android:id="@+id/tempsDebut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="heure de début"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/heureDebut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:hint="heure"
+            android:inputType="textPersonName"
+            android:tag="heureDebut"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text=":"
+            android:textSize="34sp" />
+
+        <EditText
+            android:id="@+id/minutesDebut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:hint="min"
+            android:inputType="textPersonName"
+            android:tag="minutesDebut"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/parentFin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:orientation="horizontal"
+        android:tag="parentFin">
+
+        <TextView
+            android:id="@+id/tempsFin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="heure de fin"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/heureFin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:hint="heure"
+            android:inputType="textPersonName"
+            android:tag="heureFin"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text=":"
+            android:textSize="34sp" />
+
+        <EditText
+            android:id="@+id/minutesFin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:hint="min"
+            android:inputType="textPersonName"
+            android:tag="minutesFin"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/boutonEnregistrer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tag="boutonEnregistrer"
+            android:text="Enregistrer" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/parentProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/objectif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="OBJECTIF"
+            android:textSize="24sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tag="progressBar" />
+    </LinearLayout>
+</LinearLayout>

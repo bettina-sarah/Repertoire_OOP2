@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
                     ;
                     if(miniLayout.getChildAt(j) instanceof Button){
                         miniLayout.getChildAt(j).setOnClickListener(ec);
+                        String button = ((Button) miniLayout.getChildAt(j)).getText().toString();
+                        int temp = Integer.parseInt(button);
                     }
                 }
             }
