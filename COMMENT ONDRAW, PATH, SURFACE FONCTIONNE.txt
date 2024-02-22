@@ -1,0 +1,13 @@
+ -- surface on attache au parent. 
+on attache onTouchListener a la surface
+
+Surface extends View {
+	protected void onDraw(Canvas c){
+		super.onView()
+
+ONTOUCHLISTENER: 
+
+class Ecouteur implements OnTouchListener{
+	onTouch(View source, MotionEvent m){
+		if(m.getAction() == MotionEvent.DOWN) // UP, MOVE
+			-- feed ca au PATH qui a besoin de m.getX() ; m.getY();
