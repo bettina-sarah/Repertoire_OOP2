@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -12,6 +13,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.example.tp2_paint.forme.Forme;
+import com.example.tp2_paint.forme.ListeFormes;
+import com.example.tp2_paint.utils.ListeUtils;
+import com.example.tp2_paint.utils.Util;
+
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,8 +31,16 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout surfaceDessin;
     LinearLayout choix;
     Surface surface;
-
     String couleurCourante; // va contenir le tag lié a la couleur
+
+    ListeUtils listeUtils;
+    ListeFormes listeFormes;
+
+    Vector <Forme> formesDessiner;
+    Vector <Util> utilsDessiner;
+
+    Forme formeCourante;
+    Util utilCourant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +89,25 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View source) {
+            couleurCourante = source.getTag().toString();
 
-//            couleurCourante = source.getTag().toString();
-//            surface.setBackgroundColor(Color.parseColor(couleurCourante));
+            if(source instanceof ImageView){
+
+              //  utilsDessiner
+
+               // formeCourante = listeFormes;
+                //quel bouton et attacher a un objet Util
+                listeFormes.recupererForme()
+                source.getTag().toString();
+
+                Forme formeCourante;
+                Util utilCourant;
+
+
+              //  listeFormes.;
+
+            }
+            surface.setBackgroundColor(Color.parseColor(couleurCourante));
 
         }
     }

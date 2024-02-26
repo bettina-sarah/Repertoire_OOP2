@@ -83,7 +83,7 @@ public class PlacementActivity extends AppCompatActivity {
 
             }
 
-            catch (RuntimeException nfe) { // ou Exception nfe (grand-pere) - ou RuntimeException (pere)
+            catch (NumberFormatException nfe) { // ou Exception nfe (grand-pere) - ou RuntimeException (pere)
                 creerAlertDialog("Recommencer avec un nombre valide");
                 champMontant.setText(null);
                 //on peut mettre le focus sur le champs a reessayer
@@ -92,6 +92,14 @@ public class PlacementActivity extends AppCompatActivity {
 
             }
 
+            catch (NegatifException nfe) {
+                creerAlertDialog(nfe.getMessage());
+                champMontant.setText(null);
+                //on peut mettre le focus sur le champs a reessayer
+                champMontant.requestFocus();
+                champMontant.setHint("Nombre ici");
+
+            }
 
         }
     }
