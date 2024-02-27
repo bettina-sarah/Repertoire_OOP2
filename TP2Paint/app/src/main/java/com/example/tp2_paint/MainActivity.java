@@ -5,19 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.media.Image;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.tp2_paint.forme.Forme;
-import com.example.tp2_paint.forme.ListeFormes;
-import com.example.tp2_paint.utils.ListeUtils;
-import com.example.tp2_paint.utils.Util;
+import com.example.tp2_paint.forme.TraceLibre;
 
 import java.util.Vector;
 
@@ -26,21 +23,15 @@ public class MainActivity extends AppCompatActivity {
     //declarer tous les objets
     EcouteurClick ecClick;
     EcouteurTouch ecTouch;
-
     LinearLayout couleurs;
     LinearLayout surfaceDessin;
     LinearLayout choix;
     Surface surface;
     String couleurCourante; // va contenir le tag lié a la couleur
 
-    ListeUtils listeUtils;
-    ListeFormes listeFormes;
-
     Vector <Forme> formesDessiner;
-    Vector <Util> utilsDessiner;
-
     Forme formeCourante;
-    Util utilCourant;
+    Paint crayon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         surfaceDessin.addView(surface);
         surface.setOnTouchListener(ecTouch);
 
-
     }
 
 
@@ -89,25 +79,37 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View source) {
-            couleurCourante = source.getTag().toString();
+            if(source instanceof Button){
+                couleurCourante = source.getTag().toString();
+                crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
+                crayon.setStrokeWidth(10); //par defaut width de 1
+                //A CHANGER largeur de trait
+                crayon.setStyle(Paint.Style.FILL);
+                crayon.setColor(Color.parseColor(couleurCourante));
 
-            if(source instanceof ImageView){
+            }
 
-              //  utilsDessiner
+            else if(source instanceof ImageView){
+
+                if(source.getTag().equals("remplir")){
+                    surface.setBackgroundColor(Color.parseColor(couleurCourante));
+                }
+                if(source.getTag().equals("crayon")){
+                    formeCourante = new TraceLibre(50,couleurCourante);
+
+                   // listeFormes.recupererForme(source.getTag().toString());
+                }
 
                // formeCourante = listeFormes;
                 //quel bouton et attacher a un objet Util
-                listeFormes.recupererForme()
-                source.getTag().toString();
+               // listeFormes.recupererForme()
 
-                Forme formeCourante;
-                Util utilCourant;
-
+                //Forme formeCourante;
 
               //  listeFormes.;
 
             }
-            surface.setBackgroundColor(Color.parseColor(couleurCourante));
+
 
         }
     }
@@ -131,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas){
             super.onDraw(canvas);
+
+            //on draw vecteur
 
         }
     }

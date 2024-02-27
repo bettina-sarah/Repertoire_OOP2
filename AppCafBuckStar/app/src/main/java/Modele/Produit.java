@@ -8,6 +8,9 @@ public class Produit {
     private double nbCalories;
 
     public Produit(String nom, String format, double prix, double nbCalories) {
+        if(prix>30){
+
+        }
         this.nom = nom;
         this.format = format;
         this.prix = prix;
