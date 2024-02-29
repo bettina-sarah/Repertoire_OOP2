@@ -81,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View source) {
             if(source instanceof Button){
                 couleurCourante = source.getTag().toString();
-                crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-                crayon.setStrokeWidth(10); //par defaut width de 1
-                //A CHANGER largeur de trait
-                crayon.setStyle(Paint.Style.FILL);
-                crayon.setColor(Color.parseColor(couleurCourante));
 
             }
 
@@ -118,7 +113,31 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            return false;
+
+            formeCourante.dessiner(new Canvas()), event.getX(), event.getY();
+
+//            if(event.getAction() == 0){
+//                x = event.getX();
+//                y = event.getY();
+//                x3 = -20;
+//                y3 = -20;
+//                surface.invalidate();
+//            } else if (event.getAction() == 2) {
+//                x2 = event.getX();
+//                y2 = event.getY();
+//                surface.invalidate();
+//            } else if (event.getAction() == 1) {
+//                x3 = event.getX();
+//                y3 = event.getY();
+//                surface.invalidate();
+//            }
+//            return true;
+
+
+
+            event.getX();
+            event.getY();
+            return true;
         }
     }
 
