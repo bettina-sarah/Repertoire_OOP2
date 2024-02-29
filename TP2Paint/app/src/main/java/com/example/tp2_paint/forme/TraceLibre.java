@@ -4,38 +4,26 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
 
 public class TraceLibre extends Forme {
-
-    Paint crayon;
     Path path;
 
 
-    public TraceLibre(float largeur, String couleur) {
+    public TraceLibre(float largeur, String couleur, float x, float y) {
         super(largeur, couleur);
-        crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-        crayon.setStrokeWidth(largeur); //par defaut width de 1
-        //A CHANGER largeur de trait
-        crayon.setStyle(Paint.Style.FILL);
-        crayon.setColor(Color.parseColor(couleur));
-        path = new Path();
 
+        path = new Path();
+        path.moveTo(x,y);
     }
 
     @Override
-    public void dessiner(Canvas canvas, float x, float y) {
+    public void dessiner(Canvas canvas) {
 
-        //start x&y, stop x&y, crayon
-        //canvas.drawLine();
-        canvas.drawArc(new RectF(),20,70,true,crayon);
-
-        //avec this.couleur ... this.largeur ...
-        //path.moveTo();
-        //path.lineTo();
-        canvas.drawPath(path, crayon);
+        canvas.drawPath(path, this.getCrayon());
 
     }
 
-
+    public void move(float x, float y) {
+        path.lineTo(x,y);
+    }
 }

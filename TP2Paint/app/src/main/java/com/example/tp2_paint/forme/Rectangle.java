@@ -8,7 +8,12 @@ public class Rectangle extends Forme {
     }
 
     @Override
-    public void dessiner(Canvas canvas, float x, float y) {
+    public void dessiner(Canvas canvas) {
+
+    }
+
+    @Override
+    public void move(float x, float y) {
 
     }
 }

@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.tp2_paint.forme.Cercle;
+import com.example.tp2_paint.forme.Efface;
 import com.example.tp2_paint.forme.Forme;
 import com.example.tp2_paint.forme.TraceLibre;
 
@@ -28,10 +30,14 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout choix;
     Surface surface;
     String couleurCourante; // va contenir le tag lié a la couleur
+    String backgroundCouleur;
 
     Vector <Forme> formesDessiner;
+    String motFormeCourante;
     Forme formeCourante;
     Paint crayon;
+
+    float x, y;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         couleurs = findViewById(R.id.couleurs);
         surfaceDessin = findViewById(R.id.surfaceDessin);
         choix = findViewById(R.id.choix);
+
+        formesDessiner = new Vector<>();
+        backgroundCouleur = "#FF000000";
+
 
         //attacher click listener a tous les boutons et imageviews
 
@@ -69,9 +79,10 @@ public class MainActivity extends AppCompatActivity {
 
         surface = new Surface(this);
         surface.setLayoutParams(new LinearLayout.LayoutParams(-1,-1));
+        surface.setBackgroundColor(Color.parseColor(backgroundCouleur));
+
         surfaceDessin.addView(surface);
         surface.setOnTouchListener(ecTouch);
-
     }
 
 
@@ -88,55 +99,68 @@ public class MainActivity extends AppCompatActivity {
 
                 if(source.getTag().equals("remplir")){
                     surface.setBackgroundColor(Color.parseColor(couleurCourante));
+                    backgroundCouleur = couleurCourante;
                 }
-                if(source.getTag().equals("crayon")){
-                    formeCourante = new TraceLibre(50,couleurCourante);
-
-                   // listeFormes.recupererForme(source.getTag().toString());
+                else if(source.getTag().equals("crayon")){
+                    motFormeCourante = "crayon";
+                }
+                else if(source.getTag().equals("effacer")){
+                    motFormeCourante = "effacer";
+                }
+                else if(source.getTag().equals("cercle")){
+                    motFormeCourante = "cercle";
+                }
+                else if(source.getTag().equals("rectangle")){
+                    motFormeCourante = "rectangle";
+                }
+                else if(source.getTag().equals("triangle")){
+                    motFormeCourante = "triangle";
                 }
 
-               // formeCourante = listeFormes;
-                //quel bouton et attacher a un objet Util
-               // listeFormes.recupererForme()
-
-                //Forme formeCourante;
-
-              //  listeFormes.;
 
             }
-
-
         }
     }
 
-    private class EcouteurTouch implements View.OnTouchListener{
+    private class EcouteurTouch implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
-            formeCourante.dessiner(new Canvas()), event.getX(), event.getY();
-
-//            if(event.getAction() == 0){
-//                x = event.getX();
-//                y = event.getY();
-//                x3 = -20;
-//                y3 = -20;
-//                surface.invalidate();
-//            } else if (event.getAction() == 2) {
-//                x2 = event.getX();
-//                y2 = event.getY();
-//                surface.invalidate();
-//            } else if (event.getAction() == 1) {
-//                x3 = event.getX();
-//                y3 = event.getY();
-//                surface.invalidate();
-//            }
-//            return true;
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                x = event.getX();
+                y = event.getY();
 
 
+                switch(motFormeCourante){
+                    case "crayon":
+                        formeCourante = new TraceLibre(50,couleurCourante, x, y);
+                        formesDessiner.add(formeCourante);
+                        break;
 
-            event.getX();
-            event.getY();
+                    case "effacer":
+                        formeCourante = new Efface(50, backgroundCouleur, x, y);
+                        formesDessiner.add(formeCourante);
+                        break;
+
+                    case "cercle":
+                        formeCourante = new Cercle(50, couleurCourante, x, y);
+                        formesDessiner.add(formeCourante);
+                        break;
+
+
+
+                }
+                surface.invalidate();
+            }
+
+            if (event.getAction() == MotionEvent.ACTION_MOVE){
+                x = event.getX();
+                y = event.getY();
+
+                formeCourante.move(x,y);
+                surface.invalidate();
+            }
             return true;
         }
     }
@@ -148,22 +172,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         @Override
         protected void onDraw(Canvas canvas){
             super.onDraw(canvas);
 
-            //on draw vecteur
+            //parcourir le vecteur des formes:
+
+            for (Forme forme : formesDessiner) {
+                forme.dessiner(canvas);
+            }
+
 
         }
     }
-
-
-
-
-
-
-
 
 
 
