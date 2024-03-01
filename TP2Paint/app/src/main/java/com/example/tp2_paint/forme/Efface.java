@@ -10,7 +10,6 @@ public class Efface extends Forme {
     Path path;
     public Efface(float largeur, String couleur, float x, float y) {
         super(largeur, couleur);
-
         //COULEUR DE L'ECRAN!
 
 

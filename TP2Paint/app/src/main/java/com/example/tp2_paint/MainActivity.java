@@ -101,22 +101,21 @@ public class MainActivity extends AppCompatActivity {
                     surface.setBackgroundColor(Color.parseColor(couleurCourante));
                     backgroundCouleur = couleurCourante;
                 }
-                else if(source.getTag().equals("crayon")){
-                    motFormeCourante = "crayon";
+                else{
+                    motFormeCourante = source.getTag().toString();
                 }
-                else if(source.getTag().equals("effacer")){
-                    motFormeCourante = "effacer";
-                }
-                else if(source.getTag().equals("cercle")){
-                    motFormeCourante = "cercle";
-                }
-                else if(source.getTag().equals("rectangle")){
-                    motFormeCourante = "rectangle";
-                }
-                else if(source.getTag().equals("triangle")){
-                    motFormeCourante = "triangle";
-                }
-
+//                else if(source.getTag().equals("effacer")){
+//                    motFormeCourante = "effacer";
+//                }
+//                else if(source.getTag().equals("cercle")){
+//                    motFormeCourante = "cercle";
+//                }
+//                else if(source.getTag().equals("rectangle")){
+//                    motFormeCourante = "rectangle";
+//                }
+//                else if(source.getTag().equals("triangle")){
+//                    motFormeCourante = "triangle";
+//                }
 
             }
         }
@@ -175,10 +174,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas){
             super.onDraw(canvas);
-
             //parcourir le vecteur des formes:
 
             for (Forme forme : formesDessiner) {
+                if(forme instanceof Efface){
+                    forme.getCrayon().setColor(Color.parseColor(backgroundCouleur));
+                }
                 forme.dessiner(canvas);
             }
 

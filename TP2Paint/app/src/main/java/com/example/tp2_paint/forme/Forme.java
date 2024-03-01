@@ -32,4 +32,12 @@ public abstract class Forme {
     public float getLargeur() {
         return largeur;
     }
+
+    public String getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(String couleur) {
+        this.couleur = couleur;
+    }
 }
