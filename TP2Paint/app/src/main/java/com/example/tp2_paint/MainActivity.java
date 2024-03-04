@@ -2,6 +2,7 @@ package com.example.tp2_paint;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,7 +17,9 @@ import android.widget.LinearLayout;
 import com.example.tp2_paint.forme.Cercle;
 import com.example.tp2_paint.forme.Efface;
 import com.example.tp2_paint.forme.Forme;
+import com.example.tp2_paint.forme.Rectangle;
 import com.example.tp2_paint.forme.TraceLibre;
+import com.example.tp2_paint.forme.Triangle;
 
 import java.util.Vector;
 
@@ -31,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
     Surface surface;
     String couleurCourante; // va contenir le tag lié a la couleur
     String backgroundCouleur;
-
     Vector <Forme> formesDessiner;
     String motFormeCourante;
     Forme formeCourante;
-    Paint crayon;
+
+    int largeurCourante;
 
     float x, y;
 
@@ -55,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         formesDessiner = new Vector<>();
         backgroundCouleur = "#FF000000";
+
+        largeurCourante = 30; // default largeur
 
 
         //attacher click listener a tous les boutons et imageviews
@@ -98,27 +103,35 @@ public class MainActivity extends AppCompatActivity {
             else if(source instanceof ImageView){
 
                 if(source.getTag().equals("remplir")){
-                    surface.setBackgroundColor(Color.parseColor(couleurCourante));
-                    backgroundCouleur = couleurCourante;
+                    remplir();
+                }
+                else if(source.getTag().equals("largeurTrait")){
+                    LargeurTrait fenetre = new LargeurTrait(MainActivity.this);
+                    fenetre.show();
+
                 }
                 else{
                     motFormeCourante = source.getTag().toString();
                 }
-//                else if(source.getTag().equals("effacer")){
-//                    motFormeCourante = "effacer";
-//                }
-//                else if(source.getTag().equals("cercle")){
-//                    motFormeCourante = "cercle";
-//                }
-//                else if(source.getTag().equals("rectangle")){
-//                    motFormeCourante = "rectangle";
-//                }
-//                else if(source.getTag().equals("triangle")){
-//                    motFormeCourante = "triangle";
-//                }
 
             }
         }
+    }
+
+
+    private void remplir() {
+        surface.setBackgroundColor(Color.parseColor(couleurCourante));
+        backgroundCouleur = couleurCourante;
+
+        //ici on modifie tous les formes pour matcher la couleur du fond
+        for (Forme forme : formesDessiner) {
+                forme.getCrayon().setColor(Color.parseColor(backgroundCouleur));
+            }
+        }
+
+    public void changerLargeurTrait(int largeur) {
+        //public pour autre activité!
+       largeurCourante = largeur;
     }
 
     private class EcouteurTouch implements View.OnTouchListener {
@@ -133,19 +146,29 @@ public class MainActivity extends AppCompatActivity {
 
                 switch(motFormeCourante){
                     case "crayon":
-                        formeCourante = new TraceLibre(50,couleurCourante, x, y);
+                        formeCourante = new TraceLibre(largeurCourante,couleurCourante, x, y);
                         formesDessiner.add(formeCourante);
                         break;
 
                     case "effacer":
-                        formeCourante = new Efface(50, backgroundCouleur, x, y);
+                        formeCourante = new Efface(largeurCourante, backgroundCouleur, x, y);
                         formesDessiner.add(formeCourante);
                         break;
 
                     case "cercle":
-                        formeCourante = new Cercle(50, couleurCourante, x, y);
+                        formeCourante = new Cercle(largeurCourante, couleurCourante, x, y);
                         formesDessiner.add(formeCourante);
                         break;
+
+                    case "rectangle":
+                        formeCourante = new Rectangle(largeurCourante, couleurCourante, x, y);
+                        formesDessiner.add(formeCourante);
+
+                    case "triangle":
+                        formeCourante = new Triangle(largeurCourante, couleurCourante, x, y);
+                        formesDessiner.add(formeCourante);
+
+
 
 
 
@@ -160,6 +183,20 @@ public class MainActivity extends AppCompatActivity {
                 formeCourante.move(x,y);
                 surface.invalidate();
             }
+
+            if (event.getAction() == MotionEvent.ACTION_UP){
+                x = event.getX();
+                y = event.getY();
+
+                if(formeCourante instanceof Triangle){
+                    ((Triangle)formeCourante).troisiemePoint(x,y);
+                    surface.invalidate();
+                }
+
+                }
+
+
+
             return true;
         }
     }
@@ -177,9 +214,6 @@ public class MainActivity extends AppCompatActivity {
             //parcourir le vecteur des formes:
 
             for (Forme forme : formesDessiner) {
-                if(forme instanceof Efface){
-                    forme.getCrayon().setColor(Color.parseColor(backgroundCouleur));
-                }
                 forme.dessiner(canvas);
             }
 

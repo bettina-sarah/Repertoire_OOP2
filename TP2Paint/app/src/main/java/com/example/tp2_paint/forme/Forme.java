@@ -15,8 +15,7 @@ public abstract class Forme {
         this.couleur = couleur;
 
         this.crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-        this.crayon.setStrokeWidth(largeur); //par defaut width de 1
-        //A CHANGER largeur de trait
+        this.crayon.setStrokeWidth(largeur);
         this.crayon.setStyle(Paint.Style.STROKE);
         this.crayon.setColor(Color.parseColor(couleur));
     }
@@ -29,6 +28,8 @@ public abstract class Forme {
         return crayon;
     }
 
+    //a enlever fonctions inutiles
+
     public float getLargeur() {
         return largeur;
     }
@@ -40,4 +41,5 @@ public abstract class Forme {
     public void setCouleur(String couleur) {
         this.couleur = couleur;
     }
+
 }
