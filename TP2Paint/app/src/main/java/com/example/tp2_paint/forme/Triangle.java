@@ -6,9 +6,7 @@ import android.graphics.Path;
 
 public class Triangle extends Forme {
 
-    private Path path1;
-    private Path path2;
-    private Path path3;
+    Path path;
     private float pointX;
     private float pointY;
     private float pointX2;
@@ -26,35 +24,31 @@ public class Triangle extends Forme {
         this.pointX3 = x;
         this.pointY3 = y;
 
-        path1 = new Path();
-        path2 = new Path();
-        path3 = new Path();
-        path1.moveTo(x,y);
+        //1er set de coordonnees
+        path = new Path();
+        path.moveTo(x,y);
 
     }
 
     @Override
     public void dessiner(Canvas canvas) {
         this.getCrayon().setStyle((Paint.Style.FILL));
-
-        canvas.drawLine(this.pointX, this.pointY, this.pointX2, this.pointY2, this.getCrayon());
-        canvas.drawLine(this.pointX2, this.pointY2, this.pointX3, this.pointY3, this.getCrayon());
-//
-//        canvas.drawPath(path2, this.getCrayon());
-//        canvas.drawPath(path1, this.getCrayon());
-//        canvas.drawPath(path3, this.getCrayon());
-
+        canvas.drawPath(path, this.getCrayon());
     }
 
     @Override
     public void move(float x, float y) {
         pointX2 = x;
         pointY2 = y;
+        //2eme set de coordonnees
+        path.lineTo(x,y);
     }
 
     public void troisiemePoint(float x, float y){
         this.pointX3 = x;
         this.pointY3 = y;
+        //3eme set
+        path.lineTo(x,y);
     }
 
 }

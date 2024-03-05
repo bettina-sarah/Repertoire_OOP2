@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -105,11 +106,18 @@ public class MainActivity extends AppCompatActivity {
                 if(source.getTag().equals("remplir")){
                     remplir();
                 }
+
                 else if(source.getTag().equals("largeurTrait")){
                     LargeurTrait fenetre = new LargeurTrait(MainActivity.this);
                     fenetre.show();
+                }
+
+                else if(source.getTag().equals("pipette")){
+
 
                 }
+
+                //sinon: forme a dessiner
                 else{
                     motFormeCourante = source.getTag().toString();
                 }
@@ -130,9 +138,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
     public void changerLargeurTrait(int largeur) {
-        //public pour autre activité!
        largeurCourante = largeur;
     }
+
+    public Bitmap getBitmapImage() {
+
+        this.buildDrawingCache();
+        bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
+        this.destroyDrawingCache();
+
+        return bitmapImage;
+    }
+
 
     private class EcouteurTouch implements View.OnTouchListener {
 
@@ -190,11 +207,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if(formeCourante instanceof Triangle){
                     ((Triangle)formeCourante).troisiemePoint(x,y);
-                    surface.invalidate();
+                    //surface.invalidate();
                 }
 
-                }
-
+            }
 
 
             return true;
