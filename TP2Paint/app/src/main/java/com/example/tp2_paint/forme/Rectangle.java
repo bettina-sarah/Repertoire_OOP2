@@ -22,6 +22,7 @@ public class Rectangle extends Forme {
         this.getCrayon().setStyle((Paint.Style.FILL));
         canvas.drawRect(this.pointX, this.pointY, this.pointX2, this.pointY2, this.getCrayon());
 
+
     }
 
     @Override

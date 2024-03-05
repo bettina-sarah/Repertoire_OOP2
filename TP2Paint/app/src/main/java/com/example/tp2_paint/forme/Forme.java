@@ -28,6 +28,7 @@ public abstract class Forme {
         return crayon;
     }
 
+
     //a enlever fonctions inutiles
 
     public float getLargeur() {

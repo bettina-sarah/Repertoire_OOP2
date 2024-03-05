@@ -100,7 +100,8 @@
         android:id="@+id/parentChoix"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.15">
+        android:layout_weight="0.15"
+        android:backgroundTint="#B5A4D6">
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -111,6 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
+                android:backgroundTint="#B5A4D6"
                 android:orientation="horizontal">
 
                 <ImageView

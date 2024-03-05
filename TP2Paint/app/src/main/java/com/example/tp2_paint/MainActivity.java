@@ -24,6 +24,9 @@ import com.example.tp2_paint.forme.Triangle;
 
 import java.util.Vector;
 
+import yuku.ambilwarna.AmbilWarnaDialog; //colorpicker
+import android.provider.MediaStore; //pour entregistrer
+
 public class MainActivity extends AppCompatActivity {
 
     //declarer tous les objets
@@ -39,9 +42,13 @@ public class MainActivity extends AppCompatActivity {
     String motFormeCourante;
     Forme formeCourante;
 
-    int largeurCourante;
+    boolean triangle2emePoint;
 
+    int largeurCourante;
+    Bitmap pixelPipette;
     float x, y;
+    AmbilWarnaDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +64,18 @@ public class MainActivity extends AppCompatActivity {
         surfaceDessin = findViewById(R.id.surfaceDessin);
         choix = findViewById(R.id.choix);
 
+        triangle2emePoint = false;
+
         formesDessiner = new Vector<>();
+
         backgroundCouleur = "#FF000000";
+        //valeurs par defaut pour que l'app crash pas: largeur, couleur, forme
+        largeurCourante = 30;
+        couleurCourante = "#FFFFFF";
+        x = 4;
+        y = 5;
 
-        largeurCourante = 30; // default largeur
-
+        formeCourante = new TraceLibre(largeurCourante, couleurCourante, x, y);
 
         //attacher click listener a tous les boutons et imageviews
 
@@ -114,6 +128,18 @@ public class MainActivity extends AppCompatActivity {
 
                 else if(source.getTag().equals("pipette")){
 
+                    pixelPipette = surface.getBitmapImage();
+                    //forme courante redevient crayon:
+                    motFormeCourante = "pipette";
+                    //chercher pixel x y se fait en clickant le canvas - couleur crayon pas setté ici
+                }
+
+                else if(source.getTag().equals("palette")){
+                    palette();
+                }
+
+                else if(source.getTag().equals("enregistrer")){
+                    enregistrer();
 
                 }
 
@@ -124,6 +150,34 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    private void palette() {
+        dialog = new AmbilWarnaDialog(MainActivity.this, 0xFFFFA500 , new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int couleur) {
+                couleurCourante = couleurIntToString(couleur);
+            }
+
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+                // cancel was selected by the user
+            }
+
+        });
+
+        dialog.show();
+    }
+
+    public String couleurIntToString(int couleur){
+        String couleurString = String.format("#%08X", couleur);
+        return couleurString;
+    }
+
+    private void enregistrer(){
+
+
+
     }
 
 
@@ -141,14 +195,7 @@ public class MainActivity extends AppCompatActivity {
        largeurCourante = largeur;
     }
 
-    public Bitmap getBitmapImage() {
 
-        this.buildDrawingCache();
-        bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
-        this.destroyDrawingCache();
-
-        return bitmapImage;
-    }
 
 
     private class EcouteurTouch implements View.OnTouchListener {
@@ -159,6 +206,14 @@ public class MainActivity extends AppCompatActivity {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 x = event.getX();
                 y = event.getY();
+
+                if(triangle2emePoint){ //si jai capturé mes 2 points ...
+                    if(formeCourante instanceof Triangle){
+                        ((Triangle)formeCourante).troisiemePoint(x,y);
+                        surface.invalidate();
+
+                    }
+                }
 
 
                 switch(motFormeCourante){
@@ -180,38 +235,49 @@ public class MainActivity extends AppCompatActivity {
                     case "rectangle":
                         formeCourante = new Rectangle(largeurCourante, couleurCourante, x, y);
                         formesDessiner.add(formeCourante);
+                        break;
 
                     case "triangle":
                         formeCourante = new Triangle(largeurCourante, couleurCourante, x, y);
-                        formesDessiner.add(formeCourante);
 
-
-
+                        break;
+                    case "pipette":
+                        //chercher couleur ici via pixel avec les x & y:
+                        //transtyper les float de l'event:
+                        int intX = (int)x;
+                        int intY = (int)y;
+                        int couleurPipette = pixelPipette.getPixel(intX, intY);
+                        //transtyper int en String et faire outil crayon
+                        formeCourante = new TraceLibre(largeurCourante,couleurIntToString(couleurPipette), x, y);
+                        break;
 
 
                 }
                 surface.invalidate();
             }
 
-            if (event.getAction() == MotionEvent.ACTION_MOVE){
+            else if (event.getAction() == MotionEvent.ACTION_MOVE){
                 x = event.getX();
                 y = event.getY();
 
                 formeCourante.move(x,y);
+
                 surface.invalidate();
             }
 
-            if (event.getAction() == MotionEvent.ACTION_UP){
+            else if (event.getAction() == MotionEvent.ACTION_UP){
                 x = event.getX();
                 y = event.getY();
 
                 if(formeCourante instanceof Triangle){
-                    ((Triangle)formeCourante).troisiemePoint(x,y);
-                    //surface.invalidate();
+                    //prendre 2eme set de coordo qui affecte pas le dessin du rectangle
+                    ((Triangle)formeCourante).deuxiemePoint(x,y);
+                    formesDessiner.add(formeCourante);
+                    triangle2emePoint = true; //maintenant on peut prendre 3eme point si on repese sur canvas
+                    surface.invalidate();
                 }
 
             }
-
 
             return true;
         }
@@ -227,13 +293,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas){
             super.onDraw(canvas);
-            //parcourir le vecteur des formes:
 
+            //parcourir le vecteur des formes:
             for (Forme forme : formesDessiner) {
                 forme.dessiner(canvas);
             }
+        }
 
+        public Bitmap getBitmapImage() {
 
+            this.buildDrawingCache();
+            Bitmap bitmapImage;
+            bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
+            this.destroyDrawingCache();
+
+            return bitmapImage;
         }
     }
 
