@@ -3,12 +3,14 @@ package com.example.tp2_paint;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,10 +24,15 @@ import com.example.tp2_paint.forme.Rectangle;
 import com.example.tp2_paint.forme.TraceLibre;
 import com.example.tp2_paint.forme.Triangle;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Vector;
 
 import yuku.ambilwarna.AmbilWarnaDialog; //colorpicker
 import android.provider.MediaStore; //pour entregistrer
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -127,9 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 else if(source.getTag().equals("pipette")){
-
-                    pixelPipette = surface.getBitmapImage();
-                    //forme courante redevient crayon:
                     motFormeCourante = "pipette";
                     //chercher pixel x y se fait en clickant le canvas - couleur crayon pas setté ici
                 }
@@ -175,7 +179,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enregistrer(){
+        Bitmap imageSauve = surface.getBitmapImage();
+        boolean isSauve = false;
 
+        File file = new File(MainActivity.this.getExternalFilesDir(String.valueOf
+                (MediaStore.Images.Media.EXTERNAL_CONTENT_URI)), "sss.bmp");
+
+        try (FileOutputStream fichierOS = new FileOutputStream(file)) {
+            imageSauve.compress(Bitmap.CompressFormat.PNG, 100, fichierOS);
+
+
+            ContentValues values = new ContentValues();
+            //rendre l'image accessible via mediastore dans gallery
+            this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            isSauve = true;
+        } catch (IOException e) {
+            //Input-out-exception souvent avec FileOutputStream ou ecrire fichier
+            //si storage externe est pâs dispo etc
+            e.printStackTrace();
+        }
+
+        //ERREUR:
+        //W/ContextImpl: Failed to ensure /storage/1E0A-3A05/Android/data/com.example.tp2_paint/files/content:/media/external/images/media: android.os.ServiceSpecificException:  (code -22)
+        if(isSauve){
+            Toast enregistrerConfirme = new Toast(this);
+            enregistrerConfirme.setText("Enregistrement sauvé");
+            enregistrerConfirme.show();
+        }
 
 
     }
@@ -242,13 +272,16 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case "pipette":
+                        pixelPipette = surface.getBitmapImage();
                         //chercher couleur ici via pixel avec les x & y:
                         //transtyper les float de l'event:
                         int intX = (int)x;
                         int intY = (int)y;
                         int couleurPipette = pixelPipette.getPixel(intX, intY);
                         //transtyper int en String et faire outil crayon
-                        formeCourante = new TraceLibre(largeurCourante,couleurIntToString(couleurPipette), x, y);
+                        couleurCourante = couleurIntToString(couleurPipette);
+                        //revenir au crayon
+                        motFormeCourante = "crayon";
                         break;
 
 
