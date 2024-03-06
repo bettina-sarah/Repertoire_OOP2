@@ -46,8 +46,12 @@ public class MainActivity extends AppCompatActivity {
     String couleurCourante; // va contenir le tag lié a la couleur
     String backgroundCouleur;
     Vector <Forme> formesDessiner;
+
+    Vector <Forme> formesUndo;
     String motFormeCourante;
     Forme formeCourante;
+
+    Forme formeTemporaire;
 
     boolean triangle2emePoint;
 
@@ -142,9 +146,17 @@ public class MainActivity extends AppCompatActivity {
                     palette();
                 }
 
+                else if(source.getTag().equals("undo")){
+                    undo();
+                }
+
+                else if(source.getTag().equals("redo")){
+                    //redo();
+                }
+
+
                 else if(source.getTag().equals("enregistrer")){
                     enregistrer();
-
                 }
 
                 //sinon: forme a dessiner
@@ -167,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
             public void onCancel(AmbilWarnaDialog dialog) {
                 // cancel was selected by the user
             }
-
         });
 
         dialog.show();
@@ -178,20 +189,36 @@ public class MainActivity extends AppCompatActivity {
         return couleurString;
     }
 
+    private void undo(){
+
+        //sauver derniere forme et la converser dans un autre vecteur
+        formeTemporaire = formesDessiner.lastElement();
+        formesUndo.add(formeTemporaire);
+        //enlever du vecteur courant
+        formesDessiner.removeElement(formeTemporaire);
+
+    }
+
     private void enregistrer(){
         Bitmap imageSauve = surface.getBitmapImage();
         boolean isSauve = false;
 
-        File file = new File(MainActivity.this.getExternalFilesDir(String.valueOf
-                (MediaStore.Images.Media.EXTERNAL_CONTENT_URI)), "sss.bmp");
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "sss.png");
 
-        try (FileOutputStream fichierOS = new FileOutputStream(file)) {
+        try {
+            FileOutputStream fichierOS = new FileOutputStream(file);
             imageSauve.compress(Bitmap.CompressFormat.PNG, 100, fichierOS);
+
+
 
 
             ContentValues values = new ContentValues();
             //rendre l'image accessible via mediastore dans gallery
             this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+            fichierOS.flush(); // vider la memoire cache & ferme
+            fichierOS.close();
             isSauve = true;
         } catch (IOException e) {
             //Input-out-exception souvent avec FileOutputStream ou ecrire fichier
@@ -322,7 +349,6 @@ public class MainActivity extends AppCompatActivity {
             super(context);
         }
 
-
         @Override
         protected void onDraw(Canvas canvas){
             super.onDraw(canvas);
@@ -332,7 +358,6 @@ public class MainActivity extends AppCompatActivity {
                 forme.dessiner(canvas);
             }
         }
-
         public Bitmap getBitmapImage() {
 
             this.buildDrawingCache();
