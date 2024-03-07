@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     Vector <Forme> formesDessiner;
 
     Vector <Forme> formesUndo;
+
+    boolean undoPressed;
+    boolean redoPressed;
     String motFormeCourante;
     Forme formeCourante;
 
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         triangle2emePoint = false;
 
         formesDessiner = new Vector<>();
+        formesUndo = new Vector<>();
+        undoPressed = false;
+        redoPressed = false;
 
         backgroundCouleur = "#FF000000";
         //valeurs par defaut pour que l'app crash pas: largeur, couleur, forme
@@ -148,10 +154,12 @@ public class MainActivity extends AppCompatActivity {
 
                 else if(source.getTag().equals("undo")){
                     undo();
+                    undoPressed = true;
                 }
 
                 else if(source.getTag().equals("redo")){
-                    //redo();
+                    redo();
+                    redoPressed = true;
                 }
 
 
@@ -191,11 +199,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void undo(){
 
-        //sauver derniere forme et la converser dans un autre vecteur
-        formeTemporaire = formesDessiner.lastElement();
-        formesUndo.add(formeTemporaire);
-        //enlever du vecteur courant
-        formesDessiner.removeElement(formeTemporaire);
+        //sauver derniere forme et la stocker dans un autre vecteur
+        //seulement si vector de formes dessiné a des elements!
+        if(formesDessiner.size()>0){
+            formeTemporaire = formesDessiner.lastElement();
+            formesUndo.add(formeTemporaire);
+            //enlever du vecteur courant
+            formesDessiner.removeElement(formeTemporaire);
+            formeTemporaire = null;
+        }
+        surface.invalidate();
+
+
+    }
+
+    private void redo(){
+
+        if(formesUndo.size()>0) {
+            formeTemporaire = formesUndo.lastElement();
+            //enlever du vecteur courant
+            formesDessiner.add(formeTemporaire);
+            formesUndo.removeElement(formeTemporaire);
+            formeTemporaire = null;
+            redoPressed = true;
+        }
+        surface.invalidate();
 
     }
 
@@ -354,6 +382,12 @@ public class MainActivity extends AppCompatActivity {
             super.onDraw(canvas);
 
             //parcourir le vecteur des formes:
+            if(redoPressed){
+                for (Forme forme : formesUndo) {
+                    forme.dessiner(canvas);
+                }
+            }
+
             for (Forme forme : formesDessiner) {
                 forme.dessiner(canvas);
             }
