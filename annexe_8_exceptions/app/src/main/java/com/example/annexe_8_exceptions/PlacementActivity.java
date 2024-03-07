@@ -14,6 +14,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.Vector;
 
 public class PlacementActivity extends AppCompatActivity {
 
@@ -61,6 +62,9 @@ public class PlacementActivity extends AppCompatActivity {
         ec = new Ecouteur();
 
         bouton.setOnClickListener(ec);
+
+        Vector <String> haha = new Vector<>();
+        haha.isEmpty()
 
 
     }
