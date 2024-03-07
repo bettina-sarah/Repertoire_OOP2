@@ -22,7 +22,7 @@ public class ItemMinecraft {
     }
 
     public void dessiner(Canvas canvas){
-        //canvas.drawLine(this.crayon);
+        canvas.drawLine(50,50,450,450,this.crayon);
 
     }
 }
