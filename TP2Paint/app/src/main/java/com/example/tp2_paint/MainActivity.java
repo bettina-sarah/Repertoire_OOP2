@@ -50,13 +50,15 @@ public class MainActivity extends AppCompatActivity {
     Vector <Forme> formesUndo;
 
     boolean undoPressed;
-    boolean redoPressed;
     String motFormeCourante;
     Forme formeCourante;
 
     Forme formeTemporaire;
 
+    boolean triangleFait;
+    boolean triangle1erPoint;
     boolean triangle2emePoint;
+    boolean triangle3emePoint;
 
     int largeurCourante;
     Bitmap pixelPipette;
@@ -78,12 +80,13 @@ public class MainActivity extends AppCompatActivity {
         surfaceDessin = findViewById(R.id.surfaceDessin);
         choix = findViewById(R.id.choix);
 
+        triangle1erPoint = false;
         triangle2emePoint = false;
+        triangle3emePoint = false;
 
         formesDessiner = new Vector<>();
         formesUndo = new Vector<>();
         undoPressed = false;
-        redoPressed = false;
 
         backgroundCouleur = "#FF000000";
         //valeurs par defaut pour que l'app crash pas: largeur, couleur, forme
@@ -92,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         x = 4;
         y = 5;
 
-        formeCourante = new TraceLibre(largeurCourante, couleurCourante, x, y);
+        motFormeCourante = "crayon"; //defaut
 
         //attacher click listener a tous les boutons et imageviews
 
@@ -159,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
 
                 else if(source.getTag().equals("redo")){
                     redo();
-                    redoPressed = true;
                 }
 
 
@@ -210,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
         }
         surface.invalidate();
 
-
     }
 
     private void redo(){
@@ -221,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
             formesDessiner.add(formeTemporaire);
             formesUndo.removeElement(formeTemporaire);
             formeTemporaire = null;
-            redoPressed = true;
         }
         surface.invalidate();
 
@@ -292,11 +292,17 @@ public class MainActivity extends AppCompatActivity {
                 x = event.getX();
                 y = event.getY();
 
+                formesUndo.clear(); //si nouvelle forme dessiné,
+                //ca empeche qu'on peut faire redo apres
+
                 if(triangle2emePoint){ //si jai capturé mes 2 points ...
                     if(formeCourante instanceof Triangle){
                         ((Triangle)formeCourante).troisiemePoint(x,y);
+                        triangle2emePoint = false;
+                        triangle3emePoint = true;
+                        triangle1erPoint = false;
+                        //triangleFait = true;
                         surface.invalidate();
-
                     }
                 }
 
@@ -323,7 +329,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case "triangle":
-                        formeCourante = new Triangle(largeurCourante, couleurCourante, x, y);
+                            formeCourante = new Triangle(largeurCourante, couleurCourante, x, y);
+                            triangle1erPoint = true;
 
                         break;
                     case "pipette":
@@ -358,15 +365,14 @@ public class MainActivity extends AppCompatActivity {
                 y = event.getY();
 
                 if(formeCourante instanceof Triangle){
-                    //prendre 2eme set de coordo qui affecte pas le dessin du rectangle
+
                     ((Triangle)formeCourante).deuxiemePoint(x,y);
                     formesDessiner.add(formeCourante);
                     triangle2emePoint = true; //maintenant on peut prendre 3eme point si on repese sur canvas
                     surface.invalidate();
+                    triangle1erPoint = false;
                 }
-
             }
-
             return true;
         }
     }
@@ -381,12 +387,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(Canvas canvas){
             super.onDraw(canvas);
 
-            //parcourir le vecteur des formes:
-            if(redoPressed){
-                for (Forme forme : formesUndo) {
-                    forme.dessiner(canvas);
-                }
-            }
 
             for (Forme forme : formesDessiner) {
                 forme.dessiner(canvas);

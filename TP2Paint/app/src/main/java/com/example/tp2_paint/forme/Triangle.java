@@ -39,7 +39,6 @@ public class Triangle extends Forme {
             canvas.drawLine(this.pointX,this.pointY,this.pointX2,this.pointY2,this.getCrayon());
         }
         if(this.isTroisiemePoint){
-           // this.path.setFillType(Path.FillType.EVEN_ODD);
             canvas.drawPath(this.path, this.getCrayon());
         }
     }
