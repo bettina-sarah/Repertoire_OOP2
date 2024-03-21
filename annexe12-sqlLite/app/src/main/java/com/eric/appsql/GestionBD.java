@@ -18,6 +18,9 @@ public class GestionBD extends SQLiteOpenHelper {
 
     private SQLiteDatabase database;
 
+    //tous les action sur le db - juste une maniere de les faire sans création objet.
+    //singleton remplace une reference STATIQUE
+
     // méthode de base pour un Singleton
     // crée une instance une seule fois quand getInstance est appelé qui appele le singleton
     public static GestionBD getInstance(Context contexte) {
@@ -28,6 +31,7 @@ public class GestionBD extends SQLiteOpenHelper {
 
 
     //! constructor est PRIVATE pcq singleton
+    //on crée une seule fois comme ca
     private GestionBD(Context context) {
         //!! IMPORTANT, lorsqu’on instancie le singleton, on associe le paramètre Context à l’appel de getApplicationContext()
         // qui retourne le contexte de l’app comme le singleton qui est accessible de tout l’app.
@@ -43,6 +47,7 @@ public class GestionBD extends SQLiteOpenHelper {
 
 
     //oncreate UNE FOIS quand l'app est installé!!!! donc acces au db une seule fois.
+    //si erreur et oncreate est refaite; delete app de l'emulateur et re-execute programme
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -85,6 +90,7 @@ public class GestionBD extends SQLiteOpenHelper {
 
     public void ouvrirBD(){
         database = this.getWritableDatabase(); //acces a la bd apres le oncreate a été faite / apres que l'app est installé
+        //!! toujours fermer l'acces
     }
     public void fermerAcces(){
         database.close();
@@ -96,11 +102,13 @@ public class GestionBD extends SQLiteOpenHelper {
     Vector<String> inventions = new Vector<>();
 
     //selectionArgs: where
+        // RAWQUERY sans ;
+        //cursor: ensemble de resultats - toujours AVANT la 1ere ligne de resultat
     Cursor cursor = database.rawQuery("select invention FROM inventeur", null);
 
 
         while(cursor.moveToNext()){
-        inventions.add(cursor.getString(0));
+        inventions.add(cursor.getString(0)); //seulement une colonne
         }
     cursor.close();
 
@@ -111,10 +119,12 @@ public class GestionBD extends SQLiteOpenHelper {
     public boolean aBonneReponse(String nom, String invention){
 
         String []tab = {nom, invention};
-        Cursor c = database.rawQuery("SELECT nom, invention FROM inventeur", null);
         Cursor cursor = database.rawQuery("select invention FROM inventeur WHERE nom = ? AND invention = ?", tab);
-            return cursor.moveToFirst();
-
+        //retourne 1 seul resultat. return true si ca match avec reponse
+        //moveToNext ok aussi
+        boolean resultat = cursor.moveToFirst();
+        cursor.close();
+            return resultat;
     }
 
 
