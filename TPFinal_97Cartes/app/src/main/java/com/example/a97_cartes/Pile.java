@@ -2,7 +2,7 @@ package com.example.a97_cartes;
 
 public class Pile {
 
-    private String type; //croissant/decroissant
+    private String type; //croissante/decroissante
     private int valeurDessus;
 
     public Pile(String type, int valeurDessus) {
