@@ -28,7 +28,8 @@ public class JeuActivity extends AppCompatActivity {
 
     int trackCartesDeposes;
 
-    Vector<String> cartesManquantes;
+    Vector<String> vectorCartesManquantes;
+    Vector<LinearLayout> vectorParentsRemplacer;
 
     Partie partie;
     LinearLayout parentOrigine;
@@ -56,12 +57,11 @@ public class JeuActivity extends AppCompatActivity {
         carte8 = findViewById(R.id.carte8);
 
         trackCartesDeposes = 0;
-        cartesManquantes = new Vector<>();
-
+        vectorCartesManquantes = new Vector<>();
+        vectorParentsRemplacer = new Vector<>();
 
         //créer partie
         partie = new Partie();
-        //setValeursCartes();
 
         //ondrag listener pour les linear layout, on touch pour les textView
         for (int i=0; i<pilesTab.length; i++){
@@ -121,10 +121,11 @@ public class JeuActivity extends AppCompatActivity {
                     //7. placer carte dans pile: new parent & add carte
                     nouveauParent = (LinearLayout) source;
                     nouveauParent.addView(carte,1);
-                    trackCartesDeposes++;
+                    String valeurCarte = ((TextView)carte).getText().toString();
+                    //enleve carte du jeu[][] et du paquet de cartes
+                    partie.enleverCarte(valeurCarte);
                     carte.setVisibility(View.VISIBLE);
-                    cartesManquantes.add(carte.getTag().toString());
-                    ajouterCartes();
+
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                     carte = (View)event.getLocalState();
@@ -140,7 +141,9 @@ public class JeuActivity extends AppCompatActivity {
         }
 
         public void ajouterCartes(){
-            if(cartesManquantes.size()==2){
+            if(vectorCartesManquantes.size()==2){
+                String tagTextView = vectorCartesManquantes.elementAt(0);
+                TextView carteRemplacer = new TextView(JeuActivity.this);
 
             }
         }

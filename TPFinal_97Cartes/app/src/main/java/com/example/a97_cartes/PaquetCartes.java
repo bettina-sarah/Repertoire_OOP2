@@ -24,4 +24,11 @@ public class PaquetCartes {
         this.vecteurCartes.removeElement(carteChoisi);
         return carteChoisi;
     }
+
+    public void enleverCarte(int valeurCarte){
+        Carte temp = new Carte(valeurCarte);
+        int indexCarte = this.vecteurCartes.indexOf(temp);
+        this.vecteurCartes.remove(indexCarte);
+
+    }
 }

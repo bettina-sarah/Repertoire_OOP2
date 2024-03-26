@@ -44,4 +44,47 @@ public class Partie {
     public Jeu getJeu() {
         return jeu;
     }
+
+    public void enleverCarte(String carte){
+        int intCarte = Integer.parseInt(carte);
+        //1. enlever les cartes du PaquetCartes
+        this.paquet.enleverCarte(intCarte);
+        //2. enlever carte du jeu aussi:
+        this.jeu.enleverCarte(intCarte);
+        //voir si j'ai besoin de remplacer:
+        remplacerCartes();
+    }
+    public void ajouterCartes(){
+        Carte temp = this.paquet.selectCarte();
+        this.jeu.ajouterCarte(temp);
+    }
+
+    public void remplacerCartes(){
+        int compteurNull = 0;
+        int iii = 0;
+        int jjj = 0;
+        for(int i = 0; i<2; i++){
+            for(int j=0; j<4; j++){
+                if(this.jeu[i][j] == null){
+                    compteurNull++;
+                }
+            }
+        }
+
+        if(compteurNull==1){
+            this.jeu[iii][jjj] =
+
+
+
+
+
+
+
+        }
+
+
+
+    }
+
+
 }
