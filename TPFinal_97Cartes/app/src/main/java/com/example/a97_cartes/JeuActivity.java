@@ -26,11 +26,6 @@ public class JeuActivity extends AppCompatActivity {
     TextView carte7;
     TextView carte8;
 
-    int trackCartesDeposes;
-
-    Vector<String> vectorCartesManquantes;
-    Vector<LinearLayout> vectorParentsRemplacer;
-
     Partie partie;
     LinearLayout parentOrigine;
     LinearLayout nouveauParent;
@@ -40,8 +35,8 @@ public class JeuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jeu);
-        LinearLayout [] pilesTab = {findViewById(R.id.pileCroissante1), findViewById(R.id.pileCroissante2),
-            findViewById(R.id.pileDecroissante1), findViewById(R.id.pileDecroissante2)};
+        LinearLayout[] pilesTab = {findViewById(R.id.pileCroissante1), findViewById(R.id.pileCroissante2),
+                findViewById(R.id.pileDecroissante1), findViewById(R.id.pileDecroissante2)};
 
 
         jeu1 = findViewById(R.id.jeu1);
@@ -56,53 +51,41 @@ public class JeuActivity extends AppCompatActivity {
         carte7 = findViewById(R.id.carte7);
         carte8 = findViewById(R.id.carte8);
 
-        trackCartesDeposes = 0;
-        vectorCartesManquantes = new Vector<>();
-        vectorParentsRemplacer = new Vector<>();
-
         //créer partie
         partie = new Partie();
 
         //ondrag listener pour les linear layout, on touch pour les textView
-        for (int i=0; i<pilesTab.length; i++){
+        for (int i = 0; i < pilesTab.length; i++) {
             pilesTab[i].setOnDragListener(ec);
             pilesTab[i].getChildAt(0).setOnTouchListener(ec);
-            }
+        }
 
-        for (int i=0; i<jeu1.getChildCount(); i++){
-            LinearLayout temp = ((LinearLayout)jeu1.getChildAt(i));
+        for (int i = 0; i < jeu1.getChildCount(); i++) {
+            LinearLayout temp = ((LinearLayout) jeu1.getChildAt(i));
             temp.setOnDragListener(ec);
             //textview touchlistener & set text en fonction des cartes pigés
             int valeurTempCarte = partie.getJeu().getJeuCartes()[0][i].getValeur();
 
-            ((TextView)temp.getChildAt(0)).setText(String.valueOf(valeurTempCarte));
-
+            ((TextView) temp.getChildAt(0)).setText(String.valueOf(valeurTempCarte));
 
 
             temp.getChildAt(0).setOnTouchListener(ec);
         }
-        for (int i=0; i<jeu2.getChildCount(); i++){
-            LinearLayout temp = ((LinearLayout)jeu2.getChildAt(i));
+        for (int i = 0; i < jeu2.getChildCount(); i++) {
+            LinearLayout temp = ((LinearLayout) jeu2.getChildAt(i));
             temp.setOnDragListener(ec);
             //textview touchlistener & set text en fonction des cartes pigés
             int valeurTempCarte = partie.getJeu().getJeuCartes()[1][i].getValeur();
-            ((TextView)temp.getChildAt(0)).setText(String.valueOf(valeurTempCarte));
-
+            ((TextView) temp.getChildAt(0)).setText(String.valueOf(valeurTempCarte));
 
             temp.getChildAt(0).setOnTouchListener(ec);
         }
-
 
         ImageButton undoButton = findViewById(R.id.undoButton);
         undoButton.setEnabled(false);
 
 
-
-
-
-        }
-
-
+    }
 
 
     private class Ecouteur implements View.OnDragListener, View.OnTouchListener {
@@ -110,42 +93,46 @@ public class JeuActivity extends AppCompatActivity {
 
         @Override
         public boolean onDrag(View source, DragEvent event) { //linear layout
-            switch(event.getAction()){
+            switch (event.getAction()) {
                 //4:drop: get localstate
                 case DragEvent.ACTION_DROP:
-                    carte = (View)event.getLocalState();
-                    //5. get colonne d'origine
-                    parentOrigine = (LinearLayout)carte.getParent();
-                    //6. enleve carte du jeu2
-                    parentOrigine.removeView(carte);
-                    //7. placer carte dans pile: new parent & add carte
-                    nouveauParent = (LinearLayout) source;
-                    nouveauParent.addView(carte,1);
-                    String valeurCarte = ((TextView)carte).getText().toString();
-                    //enleve carte du jeu[][] et du paquet de cartes
-                    partie.enleverCarte(valeurCarte);
-                    carte.setVisibility(View.VISIBLE);
+                    //valider si move est valide en fonction de la pile choisie
+                    if (partie.moveEstValide()) {
+                        carte = (View) event.getLocalState();
+                        //5. get colonne d'origine
+                        parentOrigine = (LinearLayout) carte.getParent();
+                        //6. enleve carte du jeu2
+                        parentOrigine.removeView(carte);
+                        //7. placer carte dans pile: new parent & add carte
+                        nouveauParent = (LinearLayout) source;
+                        nouveauParent.addView(carte, 1);
+                        String valeurCarte = ((TextView) carte).getText().toString();
+                        //enleve carte du jeu[][] et du paquet de cartes
+                        partie.enleverCarte(valeurCarte);
+                        carte.setVisibility(View.VISIBLE);
+
+                    }
+                    else{ //move invalide - retourner textView
+
+                        carte.setVisibility(View.VISIBLE);
+
+                    }
+
 
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    carte = (View)event.getLocalState();
+                    carte = (View) event.getLocalState();
                     carte.setVisibility(View.VISIBLE);
                     break;
 
             }
-
-
 
 
             return true;
         }
 
-        public void ajouterCartes(){
-            if(vectorCartesManquantes.size()==2){
-                String tagTextView = vectorCartesManquantes.elementAt(0);
-                TextView carteRemplacer = new TextView(JeuActivity.this);
-
-            }
+        public void ajouterCartes() {
+            TextView carteRemplacer = new TextView(JeuActivity.this);
         }
 
         @Override
@@ -154,7 +141,7 @@ public class JeuActivity extends AppCompatActivity {
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(source);
 
             //2.: drag & drop du shadow - (localstate) on va chercher dans drag
-            source.startDragAndDrop(null, shadowBuilder, source,0);
+            source.startDragAndDrop(null, shadowBuilder, source, 0);
             //3. text view a invisible
             source.setVisibility(View.INVISIBLE); //DONNER L'illusion qu'on transporte la carte
             return true;

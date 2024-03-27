@@ -12,6 +12,8 @@ public class Partie {
     private PaquetCartes paquet;
     private Jeu jeu;
 
+    private int cartesJouees;
+
     public Partie() {
         this.pileCroissante1 = new Pile("croissante", 0);
         this.pileCroissante2 = new Pile("croissante", 0);
@@ -19,6 +21,7 @@ public class Partie {
         this.getPileDecroissante2 = new Pile("decroissante", 98);
         this.paquet = new PaquetCartes();
         this.jeu = new Jeu(this.paquet);
+        this.cartesJouees = 0;
     }
 
     public Pile getPileCroissante1() {
@@ -45,41 +48,38 @@ public class Partie {
         return jeu;
     }
 
+    public boolean moveEstValide(){
+
+        return false;
+    }
+
     public void enleverCarte(String carte){
         int intCarte = Integer.parseInt(carte);
         //1. enlever les cartes du PaquetCartes
         this.paquet.enleverCarte(intCarte);
         //2. enlever carte du jeu aussi:
         this.jeu.enleverCarte(intCarte);
+        this.cartesJouees++;
         //voir si j'ai besoin de remplacer:
-        remplacerCartes();
-    }
-    public void ajouterCartes(){
-        Carte temp = this.paquet.selectCarte();
-        this.jeu.ajouterCarte(temp);
-    }
-
-    public void remplacerCartes(){
-        int compteurNull = 0;
-        int iii = 0;
-        int jjj = 0;
-        for(int i = 0; i<2; i++){
-            for(int j=0; j<4; j++){
-                if(this.jeu[i][j] == null){
-                    compteurNull++;
-                }
-            }
+        if(this.cartesJouees==2){
+            remplacerCartes();
         }
 
-        if(compteurNull==1){
-            this.jeu[iii][jjj] =
+    }
+//    public void ajouterCartes(){
+//        Carte temp = this.paquet.selectCarte();
+//        this.jeu.ajouterCarte(temp);
+//    }
 
-
-
-
-
-
-
+    public void remplacerCartes(){
+        this.cartesJouees=0;
+        //remplace les 2 cartes qui étaient null avant
+        for(int i = 0; i<2; i++){
+            for(int j=0; j<4; j++){
+                if(this.jeu.getJeuCartes()[i][j] == null){
+                    this.jeu.getJeuCartes()[i][j] = this.paquet.selectCarte();
+                }
+            }
         }
 
 
