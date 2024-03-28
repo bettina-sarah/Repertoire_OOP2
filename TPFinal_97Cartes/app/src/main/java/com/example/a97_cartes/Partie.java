@@ -14,6 +14,8 @@ public class Partie {
 
     private int cartesJouees;
 
+    private int score;
+
     public Partie() {
         this.pileCroissante1 = new Pile("croissante", 0);
         this.pileCroissante2 = new Pile("croissante", 0);
@@ -22,6 +24,7 @@ public class Partie {
         this.paquet = new PaquetCartes();
         this.jeu = new Jeu(this.paquet);
         this.cartesJouees = 0;
+        this.score = 0;
     }
 
     public Pile getPileCroissante1() {
@@ -48,9 +51,18 @@ public class Partie {
         return jeu;
     }
 
-    public boolean moveEstValide(){
+    public int getScore() {
+        return score;
+    }
 
-        return false;
+    //a effacer! TEST
+    public void setScoreTest(int score) {
+        this.score = score;
+    }
+
+    public boolean moveEstValide(){
+        //a coder - pile avec accepte carte
+        return true;
     }
 
     public void enleverCarte(String carte){
@@ -66,10 +78,10 @@ public class Partie {
         }
 
     }
-//    public void ajouterCartes(){
-//        Carte temp = this.paquet.selectCarte();
-//        this.jeu.ajouterCarte(temp);
-//    }
+    public void ajouterCartes(){
+        Carte temp = this.paquet.selectCarte();
+        this.jeu.ajouterCarte(temp);
+    }
 
     public void remplacerCartes(){
         this.cartesJouees=0;

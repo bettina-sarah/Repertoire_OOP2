@@ -5,23 +5,54 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
+
+    GestionDB instance;
+    Vector<String> scores;
+
+    TextView meilleurScore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        meilleurScore = findViewById(R.id.meilleurScore);
+        String meilleur = "";
+
+        instance = GestionDB.getInstance(getApplicationContext());
+        instance.ouvrirBD();
+
+        Partie partie = new Partie();
+        instance.addScore(partie.getScore());
+        partie.setScoreTest(4000);
+        instance.addScore(partie.getScore());
+        instance.addScore(40);
+        instance.addScore(50);
+        instance.addScore(100);
+
+
+        if(instance.getMeilleursScores().size()>0){
+            scores = instance.getMeilleursScores();
+            meilleur = scores.firstElement();
+        }
+
+        meilleurScore.setText(meilleur);
+
+
     }
 
     //lier des activity: Intent dans le sens positif
     public void clic(View source){
 
-        //PASSER a la nouvelle activité:
-        //Intent . de ou je part a ou je menva
-        Intent i = new Intent(this, JeuActivity.class);
-        i.putExtra("nom", "Bettina"); //gettext...
-        startActivity(i);
+        Intent i1 = new Intent(this, JeuActivity.class);
+        //i.putExtra("nom", "Bettina"); //gettext...
+        startActivity(i1);
 
 
     }

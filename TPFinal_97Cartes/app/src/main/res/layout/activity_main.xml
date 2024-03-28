@@ -58,7 +58,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/meilleursScores"
+            android:id="@+id/meilleurScore"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

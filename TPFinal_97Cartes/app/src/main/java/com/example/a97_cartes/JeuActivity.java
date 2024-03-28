@@ -30,6 +30,8 @@ public class JeuActivity extends AppCompatActivity {
     LinearLayout parentOrigine;
     LinearLayout nouveauParent;
 
+    GestionDB instance;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class JeuActivity extends AppCompatActivity {
 
         //créer partie
         partie = new Partie();
+        instance = GestionDB.getInstance(getApplicationContext());
+        instance.ouvrirBD();
+
 
         //ondrag listener pour les linear layout, on touch pour les textView
         for (int i = 0; i < pilesTab.length; i++) {
@@ -108,8 +113,20 @@ public class JeuActivity extends AppCompatActivity {
                         nouveauParent.addView(carte, 1);
                         String valeurCarte = ((TextView) carte).getText().toString();
                         //enleve carte du jeu[][] et du paquet de cartes
-                        partie.enleverCarte(valeurCarte);
+                        //fonctionne pas encore
+                        //partie.enleverCarte(valeurCarte);
                         carte.setVisibility(View.VISIBLE);
+
+                        //**** TEST DB !!! 0,4000,40,50,100
+
+                        instance.addScore(partie.getScore());
+                        partie.setScoreTest(4000);
+                        instance.addScore(partie.getScore());
+                        instance.addScore(40);
+                        instance.addScore(50);
+                        instance.addScore(100);
+
+
 
                     }
                     else{ //move invalide - retourner textView

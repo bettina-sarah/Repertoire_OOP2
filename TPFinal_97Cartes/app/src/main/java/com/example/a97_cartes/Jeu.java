@@ -42,8 +42,4 @@ public class Jeu {
         }
     }
 
-    public void remplacerCartes(){
-
-    }
-
 }
