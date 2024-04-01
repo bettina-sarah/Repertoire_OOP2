@@ -165,7 +165,6 @@ public class JeuActivity extends AppCompatActivity {
         }
 
         public void updateCartesRestantes(){
-            partie.updateCartesRestantes();
             cartesRestantes.setText(String.valueOf(partie.getCartesRestantes()));
         }
         public void updateScore(String carte, String tagPile){
@@ -198,6 +197,8 @@ public class JeuActivity extends AppCompatActivity {
                 nouveauParent.removeView(carteJoue);
                 parentOrigine.addView(carteJoue);
                 //undo de la logique en arriere:
+                partie.undo();
+                undo.setEnabled(false);
             }
         }
     }

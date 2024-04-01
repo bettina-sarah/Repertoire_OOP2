@@ -15,6 +15,8 @@ public class Partie {
     private int cartesJouees;
     private int score;
     private int cartesRestantes;
+    private int cartePresente; //pour undo savoir quelle carte on vient de jouer
+    private String pilePresente; //undo
 
     public Partie() {
         this.pileCroissante1 = new Pile("croissante", 0);
@@ -26,6 +28,8 @@ public class Partie {
         this.cartesJouees = 0;
         this.score = 0;
         this.cartesRestantes = 97;
+        this.cartePresente = 0;
+        this.pilePresente = "";
     }
 
     public Pile getPileCroissante1() {
@@ -70,11 +74,14 @@ public class Partie {
         return cartesRestantes;
     }
 
-    public void enleverCarte(String carte, String pile){//pile aussi
+    public void enleverCarte(String carte, String pile){
         int intCarte = Integer.parseInt(carte);
+        //on garde en memoire la carte choisie & pile pour undo
+        this.cartePresente = intCarte;
+        this.pilePresente = pile;
         //1. enlever carte du jeu: (deja enlevé du paquet)
         this.jeu.enleverCarte(intCarte);
-        //3. changer pile correspondante:
+        //2. changer pile correspondante:
         switch(pile){
             case "pileCroissante1":
                 this.pileCroissante1.setValeurDessus(intCarte);
@@ -89,18 +96,14 @@ public class Partie {
                 this.pileDecroissante2.setValeurDessus(intCarte);
                 break;
         }
-
-
+        //3. cartes jouées pour savoir quand remplacer & cartes restantes
         this.cartesJouees++;
+        this.cartesRestantes--;
         //voir si j'ai besoin de remplacer:
         if(this.cartesJouees==2){
             remplacerCartes();
         }
 
-    }
-    public void ajouterCartes(){
-        Carte temp = this.paquet.selectCarte();
-        this.jeu.ajouterCarte(temp);
     }
 
     public void remplacerCartes(){
@@ -108,29 +111,49 @@ public class Partie {
         //remplace les 2 cartes qui étaient null avant
         for(int i = 0; i<2; i++){
             for(int j=0; j<4; j++){
-                if(this.jeu.getJeuCartes()[i][j] == null){
+                if(this.jeu.getJeuCartes()[i][j].getValeur() == -1){
                     this.jeu.getJeuCartes()[i][j] = this.paquet.selectCarte();
                 }
             }
         }
     }
 
-    public void updateCartesRestantes(){
-        this.cartesRestantes--;
-    }
-
     public void updateScore(String carte, String pile){
-        //logique pour attribuer un score specifique dependant de la pile etc...
-
+        //logique pour attribuer un score specifique:
 //        Meilleur move si 5 sur 4 au lieu de 20 sur 4 (plus efficace…)
 //        La proximité de la carte jouée de la carte sur la suite
 //        La vitesse avec laquelle on a joué la carte
-//        Le nombre de cartes restantes ( plus de points à mesure qu’on avance dans le jeu )
-
-        this.score+=10;
-
-
+        //1. plus de points accordés si joueur avancé:
+        if(this.cartesRestantes >= 65){
+            this.score+=10;
+        }
+        else if(this.cartesRestantes >= 33 && this.cartesRestantes < 65){
+            this.score+=20;
+        }
+        else if(this.cartesRestantes < 33){
+            this.score+=30;
+        }
     }
 
 
+    public void undo() {
+        //memes actions qu'enlever carte a l'envers
+        this.jeu.rajouterCarte(this.cartePresente);
+        switch(this.pilePresente){
+            case "pileCroissante1":
+                this.pileCroissante1.setValeurDessus(this.cartePresente);
+                break;
+            case "pileCroissante2":
+                this.pileCroissante2.setValeurDessus(this.cartePresente);
+                break;
+            case "pileDecroissante1":
+                this.pileDecroissante1.setValeurDessus(this.cartePresente);
+                break;
+            case "pileDecroissante2":
+                this.pileDecroissante2.setValeurDessus(this.cartePresente);
+                break;
+        }
+            this.cartesJouees--;
+            this.cartesRestantes++;
+    }
 }
