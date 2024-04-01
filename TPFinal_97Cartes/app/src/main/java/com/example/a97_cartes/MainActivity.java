@@ -23,25 +23,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         meilleurScore = findViewById(R.id.meilleurScore);
-        String meilleur = "";
+        String meilleur = "0";
 
-        instance = GestionDB.getInstance(getApplicationContext());
-        instance.ouvrirBD();
-
-        Partie partie = new Partie();
-        instance.addScore(partie.getScore());
-        partie.setScoreTest(4000);
-        instance.addScore(partie.getScore());
-        instance.addScore(40);
-        instance.addScore(50);
-        instance.addScore(100);
+        //instance = GestionDB.getInstance(getApplicationContext());
+        //instance.ouvrirBD();
+        //instance.fermerBD();
 
 
-        if(instance.getMeilleursScores().size()>0){
-            scores = instance.getMeilleursScores();
-            meilleur = scores.firstElement();
-        }
-
+//        if(instance.getMeilleursScores().size()>0){
+//            scores = instance.getMeilleursScores();
+//            meilleur = scores.firstElement();
+//        }
+//
         meilleurScore.setText(meilleur);
 
 

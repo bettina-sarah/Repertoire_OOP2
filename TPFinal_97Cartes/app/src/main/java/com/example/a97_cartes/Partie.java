@@ -13,8 +13,8 @@ public class Partie {
     private Jeu jeu;
 
     private int cartesJouees;
-
     private int score;
+    private int cartesRestantes;
 
     public Partie() {
         this.pileCroissante1 = new Pile("croissante", 0);
@@ -25,6 +25,7 @@ public class Partie {
         this.jeu = new Jeu(this.paquet);
         this.cartesJouees = 0;
         this.score = 0;
+        this.cartesRestantes = 97;
     }
 
     public Pile getPileCroissante1() {
@@ -65,6 +66,10 @@ public class Partie {
         return true;
     }
 
+    public int getCartesRestantes() {
+        return cartesRestantes;
+    }
+
     public void enleverCarte(String carte){
         int intCarte = Integer.parseInt(carte);
         //1. enlever les cartes du PaquetCartes
@@ -93,8 +98,13 @@ public class Partie {
                 }
             }
         }
+    }
 
+    public void updateCartesRestantes(){
+        this.cartesRestantes--;
+    }
 
+    public void updateScore(){
 
     }
 

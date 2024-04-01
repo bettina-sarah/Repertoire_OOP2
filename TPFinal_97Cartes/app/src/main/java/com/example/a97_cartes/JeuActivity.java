@@ -3,16 +3,23 @@ package com.example.a97_cartes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Chronometer;
 
 import java.util.Vector;
 
 public class JeuActivity extends AppCompatActivity {
+
+
+    TextView cartesRestantes;
+    TextView score;
+    Chronometer chrono;
 
     LinearLayout jeu1;
     LinearLayout jeu2;
@@ -37,6 +44,11 @@ public class JeuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jeu);
+
+        score = findViewById(R.id.score);
+        chrono = findViewById(R.id.chrono);
+        cartesRestantes = findViewById(R.id.cartesRestantes);
+
         LinearLayout[] pilesTab = {findViewById(R.id.pileCroissante1), findViewById(R.id.pileCroissante2),
                 findViewById(R.id.pileDecroissante1), findViewById(R.id.pileDecroissante2)};
 
@@ -55,8 +67,8 @@ public class JeuActivity extends AppCompatActivity {
 
         //créer partie
         partie = new Partie();
-        instance = GestionDB.getInstance(getApplicationContext());
-        instance.ouvrirBD();
+        //instance = GestionDB.getInstance(getApplicationContext());
+        //instance.ouvrirBD();
 
 
         //ondrag listener pour les linear layout, on touch pour les textView
@@ -87,13 +99,19 @@ public class JeuActivity extends AppCompatActivity {
         }
 
         ImageButton undoButton = findViewById(R.id.undoButton);
+        undoButton.setOnClickListener(ec);
         undoButton.setEnabled(false);
+
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        // Set the time that the count-up timer is in reference to.
+        this.chrono.setBase(elapsedRealtime);
+        this.chrono.start();
 
 
     }
 
 
-    private class Ecouteur implements View.OnDragListener, View.OnTouchListener {
+    private class Ecouteur implements View.OnClickListener, View.OnDragListener, View.OnTouchListener {
         View carte = null;
 
         @Override
@@ -110,23 +128,16 @@ public class JeuActivity extends AppCompatActivity {
                         parentOrigine.removeView(carte);
                         //7. placer carte dans pile: new parent & add carte
                         nouveauParent = (LinearLayout) source;
+                        // enlever textview de base et remplacer avec carte
+                        //nouveauParent.removeAllViews();
                         nouveauParent.addView(carte, 1);
                         String valeurCarte = ((TextView) carte).getText().toString();
                         //enleve carte du jeu[][] et du paquet de cartes
                         //fonctionne pas encore
                         //partie.enleverCarte(valeurCarte);
+                        updateCartesRestantes();
+                        //updateScore();
                         carte.setVisibility(View.VISIBLE);
-
-                        //**** TEST DB !!! 0,4000,40,50,100
-
-                        instance.addScore(partie.getScore());
-                        partie.setScoreTest(4000);
-                        instance.addScore(partie.getScore());
-                        instance.addScore(40);
-                        instance.addScore(50);
-                        instance.addScore(100);
-
-
 
                     }
                     else{ //move invalide - retourner textView
@@ -148,9 +159,18 @@ public class JeuActivity extends AppCompatActivity {
             return true;
         }
 
+        public void updateCartesRestantes(){
+            partie.updateCartesRestantes();
+            cartesRestantes.setText(String.valueOf(partie.getCartesRestantes()));
+        }
+        public void updateScore(){
+
+        }
         public void ajouterCartes() {
             TextView carteRemplacer = new TextView(JeuActivity.this);
         }
+
+
 
         @Override
         public boolean onTouch(View source, MotionEvent event) {
@@ -164,5 +184,9 @@ public class JeuActivity extends AppCompatActivity {
             return true;
         }
 
+        @Override
+        public void onClick(View v) {
+            // pour undo Button
+        }
     }
 }

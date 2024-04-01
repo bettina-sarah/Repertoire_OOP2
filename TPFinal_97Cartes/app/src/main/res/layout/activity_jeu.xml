@@ -74,20 +74,18 @@
             android:text="97"
             android:textAlignment="center"
             android:textColor="#DDCACA"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
-        <TextView
+        <Chronometer
             android:id="@+id/chrono"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:fontFamily="monospace"
-            android:text="01:00"
+            android:countDown="false"
             android:textAlignment="center"
             android:textColor="#DDCACA"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/score"
@@ -98,7 +96,7 @@
             android:text="0"
             android:textAlignment="center"
             android:textColor="#DDCACA"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -125,9 +123,23 @@
                 android:id="@+id/imageView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_margin="10dp"
                 android:cropToPadding="false"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/arrow_up" />
+
+            <TextView
+                android:id="@+id/carte11"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
+                android:layout_weight="1"
+                android:background="#BCB395"
+                android:padding="5dp"
+                android:tag="00"
+                android:text="98"
+                android:textAlignment="textEnd"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -145,7 +157,21 @@
                 android:id="@+id/imageView2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_margin="10dp"
                 app:srcCompat="@drawable/arrow_up" />
+
+            <TextView
+                android:id="@+id/carte10"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
+                android:layout_weight="1"
+                android:background="#BCB395"
+                android:padding="5dp"
+                android:tag="00"
+                android:text="98"
+                android:textAlignment="textEnd"
+                android:textSize="24sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
@@ -193,7 +219,20 @@
                 android:id="@+id/imageView3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_margin="10dp"
                 app:srcCompat="@drawable/arrow_down" />
+
+            <TextView
+                android:id="@+id/carte"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
+                android:background="#BCB395"
+                android:padding="5dp"
+                android:tag="00"
+                android:text="0"
+                android:textAlignment="textEnd"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -211,8 +250,22 @@
                 android:id="@+id/imageView4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_margin="10dp"
                 android:layout_weight="0"
                 app:srcCompat="@drawable/arrow_down" />
+
+            <TextView
+                android:id="@+id/carte9"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
+                android:layout_weight="0"
+                android:background="#BCB395"
+                android:padding="5dp"
+                android:tag="00"
+                android:text="0"
+                android:textAlignment="textEnd"
+                android:textSize="24sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
@@ -235,13 +288,14 @@
 
             <TextView
                 android:id="@+id/carte1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
                 android:background="#9990E6"
                 android:backgroundTint="#9990E6"
+                android:padding="5dp"
                 android:tag="00"
                 android:text="1"
-                android:textAlignment="textStart"
+                android:textAlignment="textEnd"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -255,15 +309,16 @@
 
             <TextView
                 android:id="@+id/carte2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
                 android:background="#9990E6"
                 android:backgroundTint="#9990E6"
                 android:tag="01"
                 android:text="1"
-                android:textAlignment="textStart"
+                android:textAlignment="textEnd"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:padding="5dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -275,13 +330,14 @@
 
             <TextView
                 android:id="@+id/carte3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
                 android:background="#9990E6"
                 android:backgroundTint="#9990E6"
+                android:padding="5dp"
                 android:tag="02"
                 android:text="1"
-                android:textAlignment="textStart"
+                android:textAlignment="textEnd"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -295,13 +351,14 @@
 
             <TextView
                 android:id="@+id/carte4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
                 android:background="#9990E6"
                 android:backgroundTint="#9990E6"
+                android:padding="5dp"
                 android:tag="03"
                 android:text="1"
-                android:textAlignment="textStart"
+                android:textAlignment="textEnd"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -325,13 +382,14 @@
 
             <TextView
                 android:id="@+id/carte5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
                 android:background="#9990E6"
                 android:backgroundTint="#9990E6"
+                android:padding="5dp"
                 android:tag="10"
                 android:text="1"
-                android:textAlignment="textStart"
+                android:textAlignment="textEnd"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -345,13 +403,14 @@
 
             <TextView
                 android:id="@+id/carte6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
                 android:background="#9990E6"
                 android:backgroundTint="#9990E6"
+                android:padding="5dp"
                 android:tag="11"
                 android:text="1"
-                android:textAlignment="textStart"
+                android:textAlignment="textEnd"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -365,13 +424,14 @@
 
             <TextView
                 android:id="@+id/carte7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
                 android:background="#9990E6"
                 android:backgroundTint="#9990E6"
+                android:padding="5dp"
                 android:tag="12"
                 android:text="1"
-                android:textAlignment="textStart"
+                android:textAlignment="textEnd"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -385,12 +445,13 @@
 
             <TextView
                 android:id="@+id/carte8"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="65dp"
+                android:layout_height="90dp"
                 android:background="#9990E6"
+                android:padding="5dp"
                 android:tag="13"
                 android:text="1"
-                android:textAlignment="textStart"
+                android:textAlignment="textEnd"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
