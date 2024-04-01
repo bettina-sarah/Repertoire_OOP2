@@ -10,6 +10,22 @@ public class Pile {
         this.valeurDessus = valeurDessus;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getValeurDessus() {
+        return valeurDessus;
+    }
+
+    public void setValeurDessus(int valeurDessus) {
+        this.valeurDessus = valeurDessus;
+    }
+
     public boolean accepte(Carte carte){
         if(type.equals("croissant")){
             return this.valeurDessus<carte.getValeur(); //return true

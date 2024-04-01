@@ -117,7 +117,8 @@
             android:layout_weight="1"
             android:background="#CFC9B4"
             android:gravity="center_vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="pileCroissante1">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -151,7 +152,8 @@
             android:layout_weight="1"
             android:background="#CFC9B4"
             android:gravity="center_vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="pileCroissante2">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -192,7 +194,8 @@
             android:layout_height="60dp"
             android:clickable="false"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/undo" />
+            app:srcCompat="@drawable/undo"
+            android:enabled="false"/>
 
     </LinearLayout>
 
@@ -213,7 +216,8 @@
             android:layout_weight="1"
             android:background="#CFC9B4"
             android:gravity="center_vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="pileDecroissante1">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -244,7 +248,8 @@
             android:layout_weight="1"
             android:background="#CFC9B4"
             android:gravity="center_vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="pileDecroissante2">
 
             <ImageView
                 android:id="@+id/imageView4"

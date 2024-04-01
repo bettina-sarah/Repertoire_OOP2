@@ -9,7 +9,7 @@ public class PaquetCartes {
     public PaquetCartes() {
         this.vecteurCartes = new Vector();
 
-        for(int i=0; i<98; i++){
+        for(int i=1; i<98; i++){
             Carte carte = new Carte(i);
             this.vecteurCartes.add(carte);
         }
@@ -25,10 +25,10 @@ public class PaquetCartes {
         return carteChoisi;
     }
 
-    public void enleverCarte(int valeurCarte){
-        Carte temp = new Carte(valeurCarte);
-        int indexCarte = this.vecteurCartes.indexOf(temp);
-        this.vecteurCartes.remove(indexCarte);
-
-    }
+//    public void enleverCarte(int valeurCarte){
+//        Carte temp = new Carte(valeurCarte);
+//        int indexCarte = this.vecteurCartes.indexOf(temp);
+//        this.vecteurCartes.remove(indexCarte);
+//
+//    }
 }

@@ -20,6 +20,7 @@ public class JeuActivity extends AppCompatActivity {
     TextView cartesRestantes;
     TextView score;
     Chronometer chrono;
+    ImageButton undo;
 
     LinearLayout jeu1;
     LinearLayout jeu2;
@@ -36,6 +37,8 @@ public class JeuActivity extends AppCompatActivity {
     Partie partie;
     LinearLayout parentOrigine;
     LinearLayout nouveauParent;
+    View carte;
+    View carteJoue;
 
     GestionDB instance;
 
@@ -52,6 +55,7 @@ public class JeuActivity extends AppCompatActivity {
         LinearLayout[] pilesTab = {findViewById(R.id.pileCroissante1), findViewById(R.id.pileCroissante2),
                 findViewById(R.id.pileDecroissante1), findViewById(R.id.pileDecroissante2)};
 
+        undo = findViewById(R.id.undoButton);
 
         jeu1 = findViewById(R.id.jeu1);
         jeu2 = findViewById(R.id.jeu2);
@@ -98,9 +102,8 @@ public class JeuActivity extends AppCompatActivity {
             temp.getChildAt(0).setOnTouchListener(ec);
         }
 
-        ImageButton undoButton = findViewById(R.id.undoButton);
-        undoButton.setOnClickListener(ec);
-        undoButton.setEnabled(false);
+        undo.setOnClickListener(ec);
+        undo.setEnabled(false);
 
         long elapsedRealtime = SystemClock.elapsedRealtime();
         // Set the time that the count-up timer is in reference to.
@@ -112,7 +115,6 @@ public class JeuActivity extends AppCompatActivity {
 
 
     private class Ecouteur implements View.OnClickListener, View.OnDragListener, View.OnTouchListener {
-        View carte = null;
 
         @Override
         public boolean onDrag(View source, DragEvent event) { //linear layout
@@ -131,13 +133,16 @@ public class JeuActivity extends AppCompatActivity {
                         // enlever textview de base et remplacer avec carte
                         //nouveauParent.removeAllViews();
                         nouveauParent.addView(carte, 1);
+                        carteJoue = carte; // on garde en memoire la carte joué
                         String valeurCarte = ((TextView) carte).getText().toString();
+                        String tagPile = nouveauParent.getTag().toString();
                         //enleve carte du jeu[][] et du paquet de cartes
                         //fonctionne pas encore
-                        //partie.enleverCarte(valeurCarte);
+                        partie.enleverCarte(valeurCarte, tagPile);
                         updateCartesRestantes();
-                        //updateScore();
+                        updateScore(valeurCarte, tagPile);
                         carte.setVisibility(View.VISIBLE);
+                        undo.setEnabled(true);
 
                     }
                     else{ //move invalide - retourner textView
@@ -163,7 +168,10 @@ public class JeuActivity extends AppCompatActivity {
             partie.updateCartesRestantes();
             cartesRestantes.setText(String.valueOf(partie.getCartesRestantes()));
         }
-        public void updateScore(){
+        public void updateScore(String carte, String tagPile){
+            partie.updateScore(carte, tagPile);
+            score.setText(String.valueOf(partie.getScore()));
+
 
         }
         public void ajouterCartes() {
@@ -185,8 +193,12 @@ public class JeuActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onClick(View v) {
-            // pour undo Button
+        public void onClick(View source) {
+            if(source == undo){
+                nouveauParent.removeView(carteJoue);
+                parentOrigine.addView(carteJoue);
+                //undo de la logique en arriere:
+            }
         }
     }
 }

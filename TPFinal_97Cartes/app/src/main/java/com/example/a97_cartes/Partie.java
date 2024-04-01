@@ -7,7 +7,7 @@ public class Partie {
     private Pile pileCroissante1;
     private Pile pileCroissante2;
     private Pile pileDecroissante1;
-    private Pile getPileDecroissante2;
+    private Pile pileDecroissante2;
 
     private PaquetCartes paquet;
     private Jeu jeu;
@@ -20,7 +20,7 @@ public class Partie {
         this.pileCroissante1 = new Pile("croissante", 0);
         this.pileCroissante2 = new Pile("croissante", 0);
         this.pileDecroissante1 = new Pile("decroissante", 98);
-        this.getPileDecroissante2 = new Pile("decroissante", 98);
+        this.pileDecroissante2 = new Pile("decroissante", 98);
         this.paquet = new PaquetCartes();
         this.jeu = new Jeu(this.paquet);
         this.cartesJouees = 0;
@@ -40,8 +40,8 @@ public class Partie {
         return pileDecroissante1;
     }
 
-    public Pile getGetPileDecroissante2() {
-        return getPileDecroissante2;
+    public Pile getPileDecroissante2() {
+        return pileDecroissante2;
     }
 
     public PaquetCartes getPaquet() {
@@ -70,12 +70,27 @@ public class Partie {
         return cartesRestantes;
     }
 
-    public void enleverCarte(String carte){
+    public void enleverCarte(String carte, String pile){//pile aussi
         int intCarte = Integer.parseInt(carte);
-        //1. enlever les cartes du PaquetCartes
-        this.paquet.enleverCarte(intCarte);
-        //2. enlever carte du jeu aussi:
+        //1. enlever carte du jeu: (deja enlevé du paquet)
         this.jeu.enleverCarte(intCarte);
+        //3. changer pile correspondante:
+        switch(pile){
+            case "pileCroissante1":
+                this.pileCroissante1.setValeurDessus(intCarte);
+                break;
+            case "pileCroissante2":
+                this.pileCroissante2.setValeurDessus(intCarte);
+                break;
+            case "pileDecroissante1":
+                this.pileDecroissante1.setValeurDessus(intCarte);
+                break;
+            case "pileDecroissante2":
+                this.pileDecroissante2.setValeurDessus(intCarte);
+                break;
+        }
+
+
         this.cartesJouees++;
         //voir si j'ai besoin de remplacer:
         if(this.cartesJouees==2){
@@ -104,7 +119,16 @@ public class Partie {
         this.cartesRestantes--;
     }
 
-    public void updateScore(){
+    public void updateScore(String carte, String pile){
+        //logique pour attribuer un score specifique dependant de la pile etc...
+
+//        Meilleur move si 5 sur 4 au lieu de 20 sur 4 (plus efficace…)
+//        La proximité de la carte jouée de la carte sur la suite
+//        La vitesse avec laquelle on a joué la carte
+//        Le nombre de cartes restantes ( plus de points à mesure qu’on avance dans le jeu )
+
+        this.score+=10;
+
 
     }
 
