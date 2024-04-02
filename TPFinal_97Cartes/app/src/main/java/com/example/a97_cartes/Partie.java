@@ -1,5 +1,7 @@
 package com.example.a97_cartes;
 
+import java.util.Vector;
+
 public class Partie {
 
     //communique avec activity;
@@ -14,9 +16,11 @@ public class Partie {
 
     private int cartesJouees;
     private int score;
+    private int dernierScore; //pour Undo!
     private int cartesRestantes;
     private int cartePresente; //pour undo savoir quelle carte on vient de jouer
     private String pilePresente; //undo
+    private Vector<Integer> tagsRemplacer; //pour l'action de remplacement des 2 cartes
 
     public Partie() {
         this.pileCroissante1 = new Pile("croissante", 0);
@@ -30,6 +34,7 @@ public class Partie {
         this.cartesRestantes = 97;
         this.cartePresente = 0;
         this.pilePresente = "";
+        this.tagsRemplacer = new Vector<>();
     }
 
     public Pile getPileCroissante1() {
@@ -65,16 +70,36 @@ public class Partie {
         this.score = score;
     }
 
-    public boolean moveEstValide(){
-        //a coder - pile avec accepte carte
-        return true;
+    public boolean moveEstValide(String carte, String pile){
+        int intCarte = Integer.parseInt(carte);
+        boolean reponse = false;
+        switch(pile){
+            case "pileCroissante1":
+                reponse = this.pileCroissante1.accepte(intCarte);
+                break;
+            case "pileCroissante2":
+                reponse = this.pileCroissante2.accepte(intCarte);
+                break;
+            case "pileDecroissante1":
+                reponse = this.pileDecroissante1.accepte(intCarte);
+                break;
+            case "pileDecroissante2":
+                reponse = this.pileDecroissante2.accepte(intCarte);
+                break;
+        }
+
+        return reponse;
     }
 
     public int getCartesRestantes() {
         return cartesRestantes;
     }
 
-    public void enleverCarte(String carte, String pile){
+    public Vector<Integer> getTagsRemplacer() { //pour remplacement des 2 cartes
+        return tagsRemplacer;
+    }
+
+    public boolean enleverCarte(String carte, String pile){
         int intCarte = Integer.parseInt(carte);
         //on garde en memoire la carte choisie & pile pour undo
         this.cartePresente = intCarte;
@@ -102,17 +127,22 @@ public class Partie {
         //voir si j'ai besoin de remplacer:
         if(this.cartesJouees==2){
             remplacerCartes();
+            return true;
         }
-
+        return false;
     }
 
     public void remplacerCartes(){
         this.cartesJouees=0;
-        //remplace les 2 cartes qui étaient null avant
+        //pour savoir quels Linear Layout ont besoin des cartes remplacantes (TextView),
+        //on garde en memoire les index qui ont été remplacés (i,j) et seront accessibles par apres
         for(int i = 0; i<2; i++){
             for(int j=0; j<4; j++){
                 if(this.jeu.getJeuCartes()[i][j].getValeur() == -1){
                     this.jeu.getJeuCartes()[i][j] = this.paquet.selectCarte();
+                    this.tagsRemplacer.add(i);
+                    this.tagsRemplacer.add(j);
+                    //a la fin, nous allons avoir par ex : "0,1,0,2"
                 }
             }
         }
@@ -125,14 +155,16 @@ public class Partie {
 //        La vitesse avec laquelle on a joué la carte
         //1. plus de points accordés si joueur avancé:
         if(this.cartesRestantes >= 65){
-            this.score+=10;
+            this.dernierScore=10;
         }
         else if(this.cartesRestantes >= 33 && this.cartesRestantes < 65){
-            this.score+=20;
+            this.dernierScore=20;
         }
         else if(this.cartesRestantes < 33){
-            this.score+=30;
+            this.dernierScore=30;
         }
+
+        this.score+=this.dernierScore;
     }
 
 
@@ -153,7 +185,35 @@ public class Partie {
                 this.pileDecroissante2.setValeurDessus(this.cartePresente);
                 break;
         }
-            this.cartesJouees--;
+            this.cartesJouees--; //might be a problem!
             this.cartesRestantes++;
+            this.score-=this.dernierScore;
+    }
+
+    public boolean checkMovesPossibles(){
+        //verifier si des moves sont encore possibles:
+        for(int i = 0; i<2; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(this.pileCroissante1.accepte(this.jeu.getJeuCartes()[i][j].getValeur())){
+                    //des qu'il y a un true, retorune true: un move possible!
+                    return this.pileCroissante1.accepte(this.jeu.getJeuCartes()[i][j].getValeur());
+                }
+                if(this.pileCroissante2.accepte(this.jeu.getJeuCartes()[i][j].getValeur())){
+                    //des qu'il y a un true, retorune true: un move possible!
+                    return this.pileCroissante2.accepte(this.jeu.getJeuCartes()[i][j].getValeur());
+                }
+                if(this.pileDecroissante1.accepte(this.jeu.getJeuCartes()[i][j].getValeur())){
+                    //des qu'il y a un true, retorune true: un move possible!
+                    return this.pileDecroissante1.accepte(this.jeu.getJeuCartes()[i][j].getValeur());
+                }
+                if(this.pileDecroissante2.accepte(this.jeu.getJeuCartes()[i][j].getValeur())){
+                    //des qu'il y a un true, retorune true: un move possible!
+                    return this.pileDecroissante2.accepte(this.jeu.getJeuCartes()[i][j].getValeur());
+                }
+
+            }
+        }
+
+        return false;
     }
 }

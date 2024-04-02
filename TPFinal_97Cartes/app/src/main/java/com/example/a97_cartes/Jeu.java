@@ -13,11 +13,6 @@ public class Jeu {
             }
         }
     }
-
-    public void setJeuCartes(Carte[][] jeuCartes) {
-        this.jeuCartes = jeuCartes;
-    }
-
     public Carte[][] getJeuCartes() {
         return this.jeuCartes;
     }

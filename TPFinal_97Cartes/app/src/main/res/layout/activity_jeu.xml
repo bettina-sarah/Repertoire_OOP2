@@ -101,7 +101,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/pilesCroissantes"
+        android:id="@+id/pilesDecroissantes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -110,7 +110,7 @@
         android:padding="25dp">
 
         <LinearLayout
-            android:id="@+id/pileCroissante1"
+            android:id="@+id/pileDecroissante1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -118,16 +118,15 @@
             android:background="#CFC9B4"
             android:gravity="center_vertical"
             android:padding="10dp"
-            android:tag="pileCroissante1">
+            android:tag="pileDecroissante1">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageView5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:cropToPadding="false"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/arrow_up" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/arrow_down" />
 
             <TextView
                 android:id="@+id/carte11"
@@ -145,7 +144,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/pileCroissante2"
+            android:id="@+id/pileDecroissante2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -153,14 +152,15 @@
             android:background="#CFC9B4"
             android:gravity="center_vertical"
             android:padding="10dp"
-            android:tag="pileCroissante2">
+            android:tag="pileDecroissante2">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageView4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                app:srcCompat="@drawable/arrow_up" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/arrow_down" />
 
             <TextView
                 android:id="@+id/carte10"
@@ -200,7 +200,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/pilesDecroissantes"
+        android:id="@+id/pilesCroissantes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -209,7 +209,7 @@
         android:padding="25dp">
 
         <LinearLayout
-            android:id="@+id/pileDecroissante1"
+            android:id="@+id/pileCroissante1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -217,14 +217,15 @@
             android:background="#CFC9B4"
             android:gravity="center_vertical"
             android:padding="10dp"
-            android:tag="pileDecroissante1">
+            android:tag="pileCroissante1">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imageView2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                app:srcCompat="@drawable/arrow_down" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/arrow_up" />
 
             <TextView
                 android:id="@+id/carte"
@@ -241,7 +242,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/pileDecroissante2"
+            android:id="@+id/pileCroissante2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -249,15 +250,15 @@
             android:background="#CFC9B4"
             android:gravity="center_vertical"
             android:padding="10dp"
-            android:tag="pileDecroissante2">
+            android:tag="pileCroissante1">
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/imageView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
                 android:layout_weight="0"
-                app:srcCompat="@drawable/arrow_down" />
+                app:srcCompat="@drawable/arrow_up" />
 
             <TextView
                 android:id="@+id/carte9"
@@ -289,7 +290,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="00">
 
             <TextView
                 android:id="@+id/carte1"
@@ -310,7 +312,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="01">
 
             <TextView
                 android:id="@+id/carte2"
@@ -318,12 +321,12 @@
                 android:layout_height="90dp"
                 android:background="#9990E6"
                 android:backgroundTint="#9990E6"
+                android:padding="5dp"
                 android:tag="01"
                 android:text="1"
                 android:textAlignment="textEnd"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:padding="5dp" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -331,7 +334,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="02">
 
             <TextView
                 android:id="@+id/carte3"
@@ -352,7 +356,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="03">
 
             <TextView
                 android:id="@+id/carte4"
@@ -383,7 +388,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="10">
 
             <TextView
                 android:id="@+id/carte5"
@@ -404,7 +410,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="11">
 
             <TextView
                 android:id="@+id/carte6"
@@ -425,7 +432,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="12">
 
             <TextView
                 android:id="@+id/carte7"
@@ -446,7 +454,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:tag="13">
 
             <TextView
                 android:id="@+id/carte8"

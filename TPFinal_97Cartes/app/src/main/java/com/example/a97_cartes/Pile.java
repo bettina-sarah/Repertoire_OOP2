@@ -14,10 +14,6 @@ public class Pile {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public int getValeurDessus() {
         return valeurDessus;
     }
@@ -26,15 +22,15 @@ public class Pile {
         this.valeurDessus = valeurDessus;
     }
 
-    public boolean accepte(Carte carte){
-        if(type.equals("croissant")){
-            return this.valeurDessus<carte.getValeur(); //return true
+    public boolean accepte(int carte){
+        if(type.equals("croissante")){
+            return this.valeurDessus<carte; //return true
         }
-        else if(type.equals("decroissant")){
-            return this.valeurDessus>carte.getValeur();
+        else if(type.equals("decroissante")){
+            return this.valeurDessus>carte;
         }
         //regle de 10 a coder ici:
-        else if(Math.abs(this.valeurDessus-carte.getValeur())==10){
+        else if(Math.abs(this.valeurDessus-carte)==10){
             return true;
         }
         return false;
