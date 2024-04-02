@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -25,15 +27,6 @@ public class JeuActivity extends AppCompatActivity {
     LinearLayout jeu1;
     LinearLayout jeu2;
     Ecouteur ec;
-    TextView carte1;
-    TextView carte2;
-    TextView carte3;
-    TextView carte4;
-    TextView carte5;
-    TextView carte6;
-    TextView carte7;
-    TextView carte8;
-
     Partie partie;
     LinearLayout parentOrigine;
     LinearLayout nouveauParent;
@@ -61,22 +54,12 @@ public class JeuActivity extends AppCompatActivity {
         jeu1 = findViewById(R.id.jeu1);
         jeu2 = findViewById(R.id.jeu2);
         ec = new Ecouteur();
-        carte1 = findViewById(R.id.carte1);
-        carte2 = findViewById(R.id.carte2);
-        carte3 = findViewById(R.id.carte3);
-        carte4 = findViewById(R.id.carte4);
-        carte5 = findViewById(R.id.carte5);
-        carte6 = findViewById(R.id.carte6);
-        carte7 = findViewById(R.id.carte7);
-        carte8 = findViewById(R.id.carte8);
 
         //créer partie & ouvrir BD
         partie = new Partie();
         instance = GestionDB.getInstance(getApplicationContext());
         instance.ouvrirBD();
         i = new Intent(JeuActivity.this, DBActivity.class);
-
-
 
         //ondrag listener pour les linear layout, on touch pour les textView
         for (int i = 0; i < pilesTab.length; i++) {
@@ -108,12 +91,10 @@ public class JeuActivity extends AppCompatActivity {
         undo.setOnClickListener(ec);
         undo.setEnabled(false);
 
+        //start chrono
         long elapsedRealtime = SystemClock.elapsedRealtime();
-        // Set the time that the count-up timer is in reference to.
         this.chrono.setBase(elapsedRealtime);
         this.chrono.start();
-
-
     }
 
 
@@ -122,20 +103,19 @@ public class JeuActivity extends AppCompatActivity {
         @Override
         public boolean onDrag(View source, DragEvent event) { //linear layout
             switch (event.getAction()) {
-                //4:drop: get localstate
                 case DragEvent.ACTION_DROP:
-
-
                     carte = (View) event.getLocalState();
-                    //5. get colonne d'origine
                     parentOrigine = (LinearLayout) carte.getParent();
                     nouveauParent = (LinearLayout) source;
                     String valeurCarte = ((TextView) carte).getText().toString();
                     String tagPile = nouveauParent.getTag().toString();
+
+                    //si pas des moves possibles, renvoye a la prochaine activité
+
+
                     //valider si move est valide en fonction de la pile choisie
                     if (partie.moveEstValide(valeurCarte, tagPile)) {
-
-                        //6. enleve carte du jeu2
+                        //6. enleve carte du jeu1/jeu2
                         parentOrigine.removeView(carte);
                         //7. placer carte dans pile: new parent & add carte
 
@@ -155,21 +135,16 @@ public class JeuActivity extends AppCompatActivity {
                         updateCartesRestantes();
                         updateScore(valeurCarte, tagPile);
                         carte.setVisibility(View.VISIBLE);
-                        if(!checkMovesPossibles()){
-                            //sauver score & redirect a la page de score
-                            instance.addScore(partie.getScore());
-                            startActivity(i);
-                        }
-
                     }
                     else{ //move invalide - retourner textView
                         carte.setVisibility(View.VISIBLE);
                     }
-
+                    checkMovesPossibles();
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                     carte = (View) event.getLocalState();
                     carte.setVisibility(View.VISIBLE);
+                    checkMovesPossibles();
                     break;
 
             }
@@ -242,17 +217,29 @@ public class JeuActivity extends AppCompatActivity {
     }
 
     public void createTextView(int row1, int column1, LinearLayout jeu){
-            TextView carte = new TextView(this);
+        TextView carte = new TextView(this);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+            carte.setLayoutParams(layoutParams);
+
             carte.setText(String.valueOf(partie.getJeu().getJeuCartes()[row1][column1].getValeur()));
-            carte.setBackgroundColor(Color.GREEN);
+            carte.setBackgroundColor(Color.parseColor("#9990E6"));
             carte.setTextSize(24);
+            carte.setPadding(5,5,5,5);
+            carte.setTypeface(null, Typeface.BOLD);
+            carte.setGravity(Gravity.END);
             LinearLayout temp = ((LinearLayout)jeu.getChildAt(column1));
             temp.addView(carte);
             temp.getChildAt(0).setOnTouchListener(ec);
     }
 
-    public boolean checkMovesPossibles(){
-        return partie.checkMovesPossibles();
-
+    public void checkMovesPossibles(){
+        //sauver score & redirect a la page de score
+        if(!partie.checkMovesPossibles()){
+            instance.addScore(partie.getScore());
+            startActivity(i);
+        }
     }
 }

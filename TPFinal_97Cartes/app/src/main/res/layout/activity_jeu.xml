@@ -104,7 +104,7 @@
         android:id="@+id/pilesDecroissantes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.9"
         android:background="#DAD7CD"
         android:orientation="horizontal"
         android:padding="25dp">
@@ -193,9 +193,9 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:clickable="false"
+            android:enabled="false"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/undo"
-            android:enabled="false"/>
+            app:srcCompat="@drawable/undo" />
 
     </LinearLayout>
 
@@ -203,7 +203,7 @@
         android:id="@+id/pilesCroissantes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.9"
         android:background="#DAD7CD"
         android:orientation="horizontal"
         android:padding="25dp">

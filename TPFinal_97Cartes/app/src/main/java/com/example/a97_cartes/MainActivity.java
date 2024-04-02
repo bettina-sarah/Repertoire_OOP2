@@ -25,16 +25,14 @@ public class MainActivity extends AppCompatActivity {
         meilleurScore = findViewById(R.id.meilleurScore);
         String meilleur = "0";
 
-        //instance = GestionDB.getInstance(getApplicationContext());
-        //instance.ouvrirBD();
-        //instance.fermerBD();
+        instance = GestionDB.getInstance(getApplicationContext());
+        instance.ouvrirBD();
 
 
-//        if(instance.getMeilleursScores().size()>0){
-//            scores = instance.getMeilleursScores();
-//            meilleur = scores.firstElement();
-//        }
-//
+        if(instance.getMeilleursScores().size()>0){
+            scores = instance.getMeilleursScores();
+            meilleur = scores.firstElement();
+        }
         meilleurScore.setText(meilleur);
 
 
@@ -44,11 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public void clic(View source){
 
         Intent i1 = new Intent(this, JeuActivity.class);
-        //i.putExtra("nom", "Bettina"); //gettext...
         startActivity(i1);
-
-
     }
 
-    //pu de move possible: shift a troisieme activity
 }
