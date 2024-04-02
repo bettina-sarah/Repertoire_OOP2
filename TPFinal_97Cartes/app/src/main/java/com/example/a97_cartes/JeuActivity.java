@@ -81,7 +81,7 @@ public class JeuActivity extends AppCompatActivity {
         //ondrag listener pour les linear layout, on touch pour les textView
         for (int i = 0; i < pilesTab.length; i++) {
             pilesTab[i].setOnDragListener(ec);
-            pilesTab[i].getChildAt(1).setOnTouchListener(ec);
+            //pilesTab[i].getChildAt(1).setOnTouchListener(ec);
         }
 
         for (int i = 0; i < jeu1.getChildCount(); i++) {
@@ -124,11 +124,7 @@ public class JeuActivity extends AppCompatActivity {
             switch (event.getAction()) {
                 //4:drop: get localstate
                 case DragEvent.ACTION_DROP:
-                    if(!checkMovesPossibles()){
-                        //sauver score & redirect a la page de score
-                        instance.addScore(partie.getScore());
-                        startActivity(i);
-                    }
+
 
                     carte = (View) event.getLocalState();
                     //5. get colonne d'origine
@@ -159,6 +155,11 @@ public class JeuActivity extends AppCompatActivity {
                         updateCartesRestantes();
                         updateScore(valeurCarte, tagPile);
                         carte.setVisibility(View.VISIBLE);
+                        if(!checkMovesPossibles()){
+                            //sauver score & redirect a la page de score
+                            instance.addScore(partie.getScore());
+                            startActivity(i);
+                        }
 
                     }
                     else{ //move invalide - retourner textView

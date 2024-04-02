@@ -125,14 +125,14 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 app:srcCompat="@drawable/arrow_down" />
 
             <TextView
                 android:id="@+id/carte11"
                 android:layout_width="65dp"
                 android:layout_height="90dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:background="#BCB395"
                 android:padding="5dp"
                 android:tag="00"
@@ -159,14 +159,14 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 app:srcCompat="@drawable/arrow_down" />
 
             <TextView
                 android:id="@+id/carte10"
                 android:layout_width="65dp"
                 android:layout_height="90dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:background="#BCB395"
                 android:padding="5dp"
                 android:tag="00"
@@ -224,13 +224,14 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 app:srcCompat="@drawable/arrow_up" />
 
             <TextView
                 android:id="@+id/carte"
                 android:layout_width="65dp"
                 android:layout_height="90dp"
+                android:layout_weight="0"
                 android:background="#BCB395"
                 android:padding="5dp"
                 android:tag="00"
@@ -250,7 +251,7 @@
             android:background="#CFC9B4"
             android:gravity="center_vertical"
             android:padding="10dp"
-            android:tag="pileCroissante1">
+            android:tag="pileCroissante2">
 
             <ImageView
                 android:id="@+id/imageView"
