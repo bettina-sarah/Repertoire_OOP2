@@ -23,15 +23,20 @@ public class Pile {
     }
 
     public boolean accepte(int carte){
-        if(type.equals("croissante")){
-            return this.valeurDessus<carte; //return true
+        if(carte==-1){
+            return false;
+        }
+        if(type.equals("croissante")) {
+            if (Math.abs(this.valeurDessus - carte) == 10) {
+                return true;
+            }
+            return this.valeurDessus < carte; //return true
         }
         else if(type.equals("decroissante")){
+            if(Math.abs(this.valeurDessus-carte)==10){
+                    return true;
+            }
             return this.valeurDessus>carte;
-        }
-        //regle de 10 a coder ici:
-        else if(Math.abs(this.valeurDessus-carte)==10){
-            return true;
         }
         return false;
     }

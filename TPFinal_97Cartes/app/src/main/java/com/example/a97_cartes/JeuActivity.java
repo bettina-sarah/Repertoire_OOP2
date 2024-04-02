@@ -149,7 +149,6 @@ public class JeuActivity extends AppCompatActivity {
 
             }
 
-
             return true;
         }
 

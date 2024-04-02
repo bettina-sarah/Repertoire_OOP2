@@ -66,7 +66,7 @@ public class GestionDB extends SQLiteOpenHelper {
         //   having, orderby, limit 3
 
         Cursor c = database.query("score", new String[]{"score_valeur"}, null,
-                null, null, null, "score_valeur DESC", null);
+                null, null, null, "score_valeur DESC", "3");
 
         while(c.moveToNext()){
             v.add(c.getString(0));

@@ -191,24 +191,31 @@ public class Partie {
     }
 
     public boolean checkMovesPossibles(){
+        System.out.println("DANS MOVE POSDIBLE PARTIE**************************");
         //verifier si des moves sont encore possibles:
         for(int i = 0; i<2; i++) {
             for (int j = 0; j < 4; j++) {
-                if(this.pileCroissante1.accepte(this.jeu.getJeuCartes()[i][j].getValeur())){
+
+                int carteTemp = this.jeu.getJeuCartes()[i][j].getValeur();
+                if(this.pileCroissante1.accepte(carteTemp)){
                     //des qu'il y a un true, retorune true: un move possible!
-                    return this.pileCroissante1.accepte(this.jeu.getJeuCartes()[i][j].getValeur());
+                    System.out.println("********************" + carteTemp);
+                    return this.pileCroissante1.accepte(carteTemp);
                 }
-                if(this.pileCroissante2.accepte(this.jeu.getJeuCartes()[i][j].getValeur())){
+                if(this.pileCroissante2.accepte(carteTemp)){
                     //des qu'il y a un true, retorune true: un move possible!
-                    return this.pileCroissante2.accepte(this.jeu.getJeuCartes()[i][j].getValeur());
+                    System.out.println("********************" + carteTemp);
+                    return this.pileCroissante2.accepte(carteTemp);
                 }
-                if(this.pileDecroissante1.accepte(this.jeu.getJeuCartes()[i][j].getValeur())){
+                if(this.pileDecroissante1.accepte(carteTemp)){
                     //des qu'il y a un true, retorune true: un move possible!
-                    return this.pileDecroissante1.accepte(this.jeu.getJeuCartes()[i][j].getValeur());
+                    System.out.println("********************" + carteTemp);
+                    return this.pileDecroissante1.accepte(carteTemp);
                 }
-                if(this.pileDecroissante2.accepte(this.jeu.getJeuCartes()[i][j].getValeur())){
+                if(this.pileDecroissante2.accepte(carteTemp)){
                     //des qu'il y a un true, retorune true: un move possible!
-                    return this.pileDecroissante2.accepte(this.jeu.getJeuCartes()[i][j].getValeur());
+                    System.out.println("********************" + carteTemp);
+                    return this.pileDecroissante2.accepte(carteTemp);
                 }
 
             }

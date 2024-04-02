@@ -29,9 +29,6 @@ public class DBActivity extends AppCompatActivity {
         listeScore.setAdapter(adapter);
 
 
-
-
-
         instance.fermerBD();
 
     }

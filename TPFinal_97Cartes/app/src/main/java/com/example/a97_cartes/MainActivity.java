@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     //lier des activity: Intent dans le sens positif
     public void clic(View source){
-
-        Intent i1 = new Intent(this, JeuActivity.class);
+        Intent i1 = new Intent(MainActivity.this, JeuActivity.class);
+        i1.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(i1);
     }
 
