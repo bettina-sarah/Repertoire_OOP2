@@ -3,9 +3,6 @@ package com.example.a97_cartes;
 import java.util.Vector;
 
 public class Partie {
-
-    //communique avec activity;
-    //4 pile, 1 paquet carte, 1 jeu
     private Pile pileCroissante1;
     private Pile pileCroissante2;
     private Pile pileDecroissante1;
@@ -53,10 +50,6 @@ public class Partie {
         return pileDecroissante2;
     }
 
-    public PaquetCartes getPaquet() {
-        return paquet;
-    }
-
     public Jeu getJeu() {
         return jeu;
     }
@@ -65,30 +58,11 @@ public class Partie {
         return score;
     }
 
-    //a effacer! TEST
-    public void setScoreTest(int score) {
-        this.score = score;
-    }
 
     public boolean moveEstValide(String carte, String pile){
         int intCarte = Integer.parseInt(carte);
-        boolean reponse = false;
-        switch(pile){
-            case "pileCroissante1":
-                reponse = this.pileCroissante1.accepte(intCarte);
-                break;
-            case "pileCroissante2":
-                reponse = this.pileCroissante2.accepte(intCarte);
-                break;
-            case "pileDecroissante1":
-                reponse = this.pileDecroissante1.accepte(intCarte);
-                break;
-            case "pileDecroissante2":
-                reponse = this.pileDecroissante2.accepte(intCarte);
-                break;
-        }
-
-        return reponse;
+        Pile validerPile = retournePile(pile);
+        return validerPile.accepte(intCarte);
     }
 
     public int getCartesRestantes() {
@@ -107,20 +81,8 @@ public class Partie {
         //1. enlever carte du jeu: (deja enlevé du paquet)
         this.jeu.enleverCarte(intCarte);
         //2. changer pile correspondante:
-        switch(pile){
-            case "pileCroissante1":
-                this.pileCroissante1.setValeurDessus(intCarte);
-                break;
-            case "pileCroissante2":
-                this.pileCroissante2.setValeurDessus(intCarte);
-                break;
-            case "pileDecroissante1":
-                this.pileDecroissante1.setValeurDessus(intCarte);
-                break;
-            case "pileDecroissante2":
-                this.pileDecroissante2.setValeurDessus(intCarte);
-                break;
-        }
+        Pile enlever = retournePile(pile);
+        enlever.setValeurDessus(intCarte);
         //3. cartes jouées pour savoir quand remplacer & cartes restantes
         this.cartesJouees++;
         this.cartesRestantes--;
@@ -149,19 +111,21 @@ public class Partie {
     }
 
     public void updateScore(String carte, String pile){
-        //logique pour attribuer un score specifique:
-//        Meilleur move si 5 sur 4 au lieu de 20 sur 4 (plus efficace…)
-//        La proximité de la carte jouée de la carte sur la suite
-//        La vitesse avec laquelle on a joué la carte
+
+
+        this.dernierScore=10; //score de base
         //1. plus de points accordés si joueur avancé:
-        if(this.cartesRestantes >= 65){
-            this.dernierScore=10;
-        }
-        else if(this.cartesRestantes >= 33 && this.cartesRestantes < 65){
+        if(this.cartesRestantes >= 33 && this.cartesRestantes < 65){
             this.dernierScore=20;
         }
         else if(this.cartesRestantes < 33){
-            this.dernierScore=30;
+            this.dernierScore=50;
+        }
+        //2. move efficace ou non:
+        int intCarte = Integer.parseInt(carte);
+        Pile pileCourante = retournePile(pile);
+        if(Math.abs(pileCourante.getValeurDessus()-intCarte)<5){
+            this.dernierScore+=100;
         }
 
         this.score+=this.dernierScore;
@@ -171,56 +135,48 @@ public class Partie {
     public void undo() {
         //memes actions qu'enlever carte a l'envers
         this.jeu.rajouterCarte(this.cartePresente);
-        switch(this.pilePresente){
-            case "pileCroissante1":
-                this.pileCroissante1.setValeurDessus(this.cartePresente);
-                break;
-            case "pileCroissante2":
-                this.pileCroissante2.setValeurDessus(this.cartePresente);
-                break;
-            case "pileDecroissante1":
-                this.pileDecroissante1.setValeurDessus(this.cartePresente);
-                break;
-            case "pileDecroissante2":
-                this.pileDecroissante2.setValeurDessus(this.cartePresente);
-                break;
-        }
-            this.cartesJouees--; //might be a problem!
-            this.cartesRestantes++;
-            this.score-=this.dernierScore;
+        Pile pileTemp = retournePile(this.pilePresente);
+        pileTemp.setValeurDessus(this.cartePresente);
+
+        this.cartesJouees--;
+        this.cartesRestantes++;
+        this.score-=this.dernierScore;
     }
 
     public boolean checkMovesPossibles(){
-        System.out.println("DANS MOVE POSDIBLE PARTIE**************************");
-        //verifier si des moves sont encore possibles:
         for(int i = 0; i<2; i++) {
             for (int j = 0; j < 4; j++) {
-
+                //des qu'il y a un true, retourne true: un move possible!
                 int carteTemp = this.jeu.getJeuCartes()[i][j].getValeur();
                 if(this.pileCroissante1.accepte(carteTemp)){
-                    //des qu'il y a un true, retorune true: un move possible!
-                    System.out.println("********************" + carteTemp);
                     return this.pileCroissante1.accepte(carteTemp);
                 }
                 if(this.pileCroissante2.accepte(carteTemp)){
-                    //des qu'il y a un true, retorune true: un move possible!
-                    System.out.println("********************" + carteTemp);
                     return this.pileCroissante2.accepte(carteTemp);
                 }
                 if(this.pileDecroissante1.accepte(carteTemp)){
-                    //des qu'il y a un true, retorune true: un move possible!
-                    System.out.println("********************" + carteTemp);
                     return this.pileDecroissante1.accepte(carteTemp);
                 }
                 if(this.pileDecroissante2.accepte(carteTemp)){
-                    //des qu'il y a un true, retorune true: un move possible!
-                    System.out.println("********************" + carteTemp);
                     return this.pileDecroissante2.accepte(carteTemp);
                 }
 
             }
         }
-
         return false;
+    }
+
+    public Pile retournePile(String pile){
+        switch(pile){
+            case "pileCroissante1":
+                return this.pileCroissante1;
+            case "pileCroissante2":
+                return this.pileCroissante2;
+            case "pileDecroissante1":
+                return this.pileDecroissante1;
+            case "pileDecroissante2":
+                return this.pileDecroissante2;
+        }
+        return null; //si aucune pile trouvé
     }
 }
